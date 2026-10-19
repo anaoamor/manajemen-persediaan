@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BarangMentahDipakai extends Model
 {
@@ -12,4 +13,14 @@ class BarangMentahDipakai extends Model
         'deskripsi',
         'jumlah',
     ];
+
+    public function barangMentah(): BelongsTo
+    {
+        return $this->belongsTo(BarangMentah::class);
+    }
+
+    public function pembuatan(): BelongsTo
+    {
+        return $this->belongsTo(Pembuatan::class);
+    }
 }
