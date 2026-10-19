@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('barang_jadi', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreign('id_kategori_perabot')->constrained();
+            $table->text('deskripsi');
+            $table->decimal('harga_minimal', 10, 2);
+            $table->integer('jumlah');
         });
     }
 

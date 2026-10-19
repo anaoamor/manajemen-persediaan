@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('barang_mentah', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('kode_item');
+            $table->string('nama');
+            $table->foreignId('id_kategori')->constrained();
+            $table->string('satuan_hitung');
+            $table->integer('stok');
+            $table->string('ukuran');
+            $table->foreignId('id_pemasok')->constrained();
+            $table->timestamp('waktu');
+            $table->decimal('harga_satuan',10,2);
         });
     }
 
