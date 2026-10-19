@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pembeli', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('no_telpon');
+            $table->string('no_telepon');
             $table->string('alamat');
         });
     }
