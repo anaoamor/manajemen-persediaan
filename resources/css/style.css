@@ -1,0 +1,89 @@
+#main-navbar{
+  background-color: #e3f2fd;
+}
+/*  Menambah efek border-bottom untuk navbar  */
+#main-navbar .nav-link{
+  border-bottom: 5px solid #e3f2fd;
+  color: black;
+}
+#main-navbar .nav-link:hover, #main-navbar a.active {
+  border-bottom: 5px solid #117a8b;
+  color: black;
+}
+
+/* Set warna text-info dan btn-info agar sedikit lebih gelap */
+.text-info{   
+  color: #17a2b8 !important;  
+  text-decoration: none;
+}  
+.text-info:hover{   
+  color: #138496 !important;  
+}  
+.btn-info {
+  border-color: #17a2b8;
+  background-color: #17a2b8;
+}
+.btn-info:hover {
+  background-color: #138496;
+  border-color: #117a8b;
+}
+.pesan-error{
+  font-size: 0.8em;
+}
+
+/*-- Nonaktifkan XXL Breakpoint (agar container tidak terlalu lebar) --*/
+@media (min-width: 1200px) {
+  .container {
+      max-width: 1140px;
+  }
+}
+
+@media (min-width: 991.98px){
+  main{padding-left: 240px;}
+}
+.wrapper {
+  display: flex;
+  width: 100%;
+  margin-top: 25px;
+  min-height: calc(100vh-60px);
+}
+#sidebar {
+  min-width: 250px;
+  position: fixed;
+  top: 120px;
+  left: 0;
+  background-color: #e3f2fd;
+  color: #117a8b;
+  transition: all 0.3s;
+}
+#sidebar.active {
+  margin-left: -250px;
+}
+#sidebar ul.components {
+  padding: 20px 0;;
+}
+#sidebar ul li a {
+  padding: 10px;
+  font-size: 1.1em;
+  display: block;
+  text-decoration: none;
+  color: black;
+}
+#sidebar ul li a:hover {
+  color: #2C5F2D;
+  background-color: #fff;
+  text-decoration: none;
+}
+#sidebar ul li.active>a{
+  background-color: #117a8b;
+  color: #ffffff;
+  text-decoration: none;
+}
+#main {
+  width: 100%;
+  padding: 20px;
+  min-width: 100vh;
+  transition: all 0.3s;
+  margin-left: 250px;
+  min-height: 1000px;
+}
