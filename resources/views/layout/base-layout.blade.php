@@ -41,9 +41,6 @@
 		<nav id="sidebar">
 
 			<ul class="list-unstyled components">
-				<li class="<?php echo substr(basename($_SERVER['PHP_SELF']), -9) == 'bibit.php' ? 'active' : ''; ?>">
-					<a href="bibit.php">Produk</a>
-				</li>
 				<li class="<?php echo substr(basename($_SERVER['PHP_SELF']), -10) == 'diskon.php' ? 'active' : ''; ?>">
 					<a href="diskon.php">Barang Mentah</a>
 				</li>
