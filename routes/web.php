@@ -1,14 +1,13 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BarangJadiController;
 use App\Http\Controllers\BarangMentahController;
 use App\Http\Controllers\PembuatanController;
 use App\Http\Controllers\PenjualanController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('barang-mentah.index');
-});
+// Route::get('/', [BarangMentahController::class, 'index']);
 
 Route::get('/barang-mentah/index', [BarangMentahController::class, 'index'])->name('barang-mentah.index');
 Route::get('/barang-mentah/create', [BarangMentahController::class, 'create'])->name('barang-mentah.create');
@@ -36,3 +35,5 @@ Route::get('/penjualan/show/{id}', [PenjualanController::class, 'show'])->name('
 Route::get('/penjualan/edit/{id}', [PenjualanController::class, 'edit'])->name('penjualan.edit');
 Route::put('/penjualan/update/{id}', [PenjualanController::class, 'update'])->name('penjualan.update');
 Route::delete('/penjualan/destroy/{id}', [PenjualanController::class, 'destroy'])->name('penjualan.destroy');
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
