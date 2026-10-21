@@ -1,3 +1,9 @@
-<div>
-    <!-- Order your soul. Reduce your wants. - Augustine -->
-</div>
+<x-app-layout>
+    <x-nav-bar/>
+    <x-side-bar/>
+
+    <div class="wrapper">
+
+    
+    </div>
+</x-app-layout>

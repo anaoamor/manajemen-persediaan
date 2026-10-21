@@ -35,7 +35,6 @@ class BarangMentahController extends Controller
             'stok' => 'required|integer',
             'ukuran' => 'required|string',
             'harga' => 'required|numeric',
-            'stok' => 'required|integer',
         ]);
     }
 

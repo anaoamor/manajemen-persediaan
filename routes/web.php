@@ -1,22 +1,22 @@
 <?php
 
 use App\Http\Controllers\BarangJadiController;
+use App\Http\Controllers\BarangMentahController;
 use App\Http\Controllers\PembuatanController;
 use App\Http\Controllers\PenjualanController;
-use App\Models\BarangMentah;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('barang-mentah.index');
 });
 
-Route::get('/barang-mentah/index', [BarangMentah::class, 'index'])->name('barang-mentah.index');
-Route::get('/barang-mentah/create', [BarangMentah::class, 'create'])->name('barang-mentah.create');
-Route::post('/barang-mentah/store', [BarangMentah::class, 'store'])->name('barang-mentah.store');
-Route::get('/barang-mentah/show/{id}', [BarangMentah::class, 'show'])->name('barang-mentah.show');
-Route::get('/barang-mentah/edit/{id}', [BarangMentah::class, 'edit'])->name('barang-mentah.edit');
-Route::put('/barang-mentah/update/{id}', [BarangMentah::class, 'update'])->name('barang-mentah.update');
-Route::delete('/barang-mentah/destroy/{id}', [BarangMentah::class, 'destroy'])->name('barang-mentah.destroy');
+Route::get('/barang-mentah/index', [BarangMentahController::class, 'index'])->name('barang-mentah.index');
+Route::get('/barang-mentah/create', [BarangMentahController::class, 'create'])->name('barang-mentah.create');
+Route::post('/barang-mentah/store', [BarangMentahController::class, 'store'])->name('barang-mentah.store');
+Route::get('/barang-mentah/show/{id}', [BarangMentahController::class, 'show'])->name('barang-mentah.show');
+Route::get('/barang-mentah/edit/{id}', [BarangMentahController::class, 'edit'])->name('barang-mentah.edit');
+Route::put('/barang-mentah/update/{id}', [BarangMentahController::class, 'update'])->name('barang-mentah.update');
+Route::delete('/barang-mentah/destroy/{id}', [BarangMentahController::class, 'destroy'])->name('barang-mentah.destroy');
 
 Route::get('/barang-jadi/index', [BarangJadiController::class, 'index'])->name('barang-jadi.index');
 Route::get('/barang-jadi/show/{id}', [BarangJadiController::class, 'show'])->name('barang-jadi.show');
