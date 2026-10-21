@@ -41,17 +41,17 @@
 		<nav id="sidebar">
 
 			<ul class="list-unstyled components">
-				<li class="<?php echo substr(basename($_SERVER['PHP_SELF']), -10) == 'diskon.php' ? 'active' : ''; ?>">
-					<a href="diskon.php">Barang Mentah</a>
+				<li class="{{ request()->routeIs('barang-mentah.*') ? 'active' : '' }}">
+					<a href="{{ route('barang-mentah.index') }}">Barang Mentah</a>
 				</li>
-				<li class="menu-notifikasi <?php echo substr(basename($_SERVER['PHP_SELF']), -14) == 'notifikasi.php' ? 'active' : ''; ?>">
-					<a href="notifikasi.php">Buat</a>
+				<li class="{{ request()->routeIs('pembuatan.*') ? 'actie' : '' }}">
+					<a href="{{ route('pembuatan.index') }}">Buat</a>
 				</li>
-				<li class="<?php echo substr(basename($_SERVER['PHP_SELF']), -11) == 'pesanan.php' ? 'active' : ''?>">
-					<a href="pesanan.php">Barang Jadi</a>
+				<li class="{{ request()->routeIs('barang-jadi.*') ? 'active' : ''}}">
+					<a href="{{ route('barang-jadi.index') }}">Barang Jadi</a>
 				</li>
-				<li>
-					<a href="#">Penjualan</a>
+				<li class="{{ request()->routeIs('penjualan.*') ? 'active' : '' }}">
+					<a href="{{ route('penjualan.index') }}">Penjualan</a>
 				</li>
 				<li>
 					<a href="#">Keuangan</a>
