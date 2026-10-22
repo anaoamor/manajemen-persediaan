@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Pembuatan extends Model
 {
+  public $timestamps = false;
     protected $fillable = [
         'id_barang_jadi',
         'waktu',

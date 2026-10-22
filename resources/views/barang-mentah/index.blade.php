@@ -46,25 +46,26 @@
                 </tr>
               </thead>
               <tbody>
-                  {{-- <?php
-                  // foreach($tabelBibit as $bibit){
-                  //     echo "<tr>";
-                  //     echo "<td> {$bibit->id_bibit_tanaman}</td>";
-                  //     echo "<td><div class=\"img-box\"><img src=\"../{$bibit->gambar}\" class=\"img-fluid\"></div></td>";
-                  //     echo "<td>{$bibit->nama}</td>";
-                  //     echo "<td>".number_format($bibit->harga,0,',','.')."</td>";
-                  //     echo "<td>{$bibit->stok}</td>";
-                  //     echo "<td>";
-                  //     echo "<a href=\"tampil_bibit.php?id_bibit_tanaman={$bibit->id_bibit_tanaman}\" class=\"btn btn-info btn-sm text-white\">Tampil</a> ";
-                  //     echo "<a href=\"edit_bibit.php?id_bibit_tanaman={$bibit->id_bibit_tanaman}\" class=\"btn btn-secondary btn-sm text-white\">Edit</a> ";
-                  //     echo "<a href=\"hapus_bibit.php?id_bibit_tanaman={$bibit->id_bibit_tanaman}\" class=\"btn btn-danger btn-sm alert_notif\">Hapus</a>";
-                  //     echo "</td>";
-                  //     echo "</tr>";
-                  // }
-                  ?> --}}
+                  @foreach($barangMentahs as $barangMentah)
+                    <tr>
+                    <td>{{ $barangMentah->id }}</td>
+                    <td>{{ $barangMentah->nama }}</td>
+                    <td>{{ $barangMentah->kategori }}</td>
+                    <td>{{ $barangMentah->satuan_hitung }}</td>
+                    <td>{{ $barangMentah->ukuran }}</td>
+                    <td>{{ $barangMentah->stok }}</td>
+                    <td>
+                      <a href="{{ route('barang-mentah.show', ['id' => $barangMentah->id]) }}" class="btn btn-info btn-sm text-white">Lihat</a>
+                      <a href="{{ route('barang-mentah.edit', ['id' => $barangMentah->id ]) }}" class="btn btn-secondary btn-sm text-white">Edit</a>
+                      <a href="{{ route('barang-mentah.destroy', ['id' => $barangMentah->id]) }}" class="btn btn-danger btn-sm alert_notif">Hapus</a>
+                    </td>
+                    </tr>
+                  
+                  @endforeach
               </tbody>
               </table>
-              
+
+              {{ $barangMentahs->links() }}
             </div>
           </div>
 

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Penjualan extends Model
 {
+  public $timestamps = false;
     protected $fillable = [
         'total_pembayaran',
         'waktu',

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BarangMentahDipakai extends Model
 {
+  public $timestamps = false;
     protected $fillable = [
         'id_pembuatan',
         'id_barang_mentah',

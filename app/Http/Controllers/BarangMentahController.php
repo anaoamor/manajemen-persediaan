@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BarangMentah;
 use App\Models\Kategori;
 use App\Models\Pemasok;
+use DB;
 use Illuminate\Http\Request;
 
 class BarangMentahController extends Controller
@@ -14,7 +15,9 @@ class BarangMentahController extends Controller
      */
     public function index()
     {
-      return view('barang-mentah.index');
+      return view('barang-mentah.index', [
+        'barangMentahs' => DB::table('barang_mentahs')->paginate(15)
+      ]);
     }
 
     /**

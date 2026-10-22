@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Pembeli extends Model
 {
+  public $timestamps = false;
     protected $fillable = [
         'nama',
         'no_telepon',

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BarangJadi extends Model
 {
+  public $timestamps = false;
     protected $fillable = [
         'id_kategori_perabot',
         'deskripsi',
