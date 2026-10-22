@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Kategori extends Model
 {
+  public $timestamps = false;
     protected $fillable = [
         'nama',
     ];

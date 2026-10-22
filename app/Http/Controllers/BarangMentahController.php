@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BarangMentah;
+use App\Models\Kategori;
+use App\Models\Pemasok;
 use Illuminate\Http\Request;
 
 class BarangMentahController extends Controller
@@ -11,7 +14,7 @@ class BarangMentahController extends Controller
      */
     public function index()
     {
-        return view('barang-mentah.index');
+      return view('barang-mentah.index');
     }
 
     /**

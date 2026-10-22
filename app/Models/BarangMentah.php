@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class BarangMentah extends Model
 {
+
+  public $timestamps = false;
+
     protected $fillable = [
         'kode_item',
         'nama',
@@ -15,7 +18,7 @@ class BarangMentah extends Model
         'satuan_hitung',
         'stok',
         'ukuran',
-        'id_pemasok',
+        'id_pemasoks',
         'waktu',
         'harga_satuan',
     ];
@@ -27,7 +30,7 @@ class BarangMentah extends Model
 
     public function pemasok(): BelongsTo
     {
-        return $this->belongsTo(Pemasok::class);
+        return $this->belongsTo(Pemasok::class, 'id_pemasoks', 'id');
     }
 
     public function barangMentahDipakai(): HasMany

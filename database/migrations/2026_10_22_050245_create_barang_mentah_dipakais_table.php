@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pembeli', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama');
-            $table->string('no_telepon');
-            $table->string('alamat');
+        Schema::create('barang_mentah_dipakais', function (Blueprint $table) {
+            $table->foreignId('id_pembuatan')->constrained();
+            $table->foreignId('id_barang_mentah')->constrained();
+            $table->text('deskripsi');
+            $table->integer('jumlah');
         });
     }
 
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pembeli');
+        Schema::dropIfExists('barang_mentah_dipakais');
     }
 };

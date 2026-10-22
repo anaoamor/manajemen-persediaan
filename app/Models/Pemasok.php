@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Pemasok extends Model
 {
+  protected $table = 'pemasoks';
+  public $timestamps = false;
     protected $fillable = [
         'nama',
         'no_telepon',
