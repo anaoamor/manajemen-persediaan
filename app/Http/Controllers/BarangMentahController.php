@@ -15,9 +15,8 @@ class BarangMentahController extends Controller
      */
     public function index()
     {
-      return view('barang-mentah.index', [
-        'barangMentahs' => DB::table('barang_mentahs')->paginate(15)
-      ]);
+      $barangMentahs = BarangMentah::with('kategori')->paginate(15);
+      return view('barang-mentah.index',compact('barangMentahs'));
     }
 
     /**

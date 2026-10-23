@@ -50,7 +50,7 @@
                     <tr>
                     <td>{{ $barangMentah->id }}</td>
                     <td>{{ $barangMentah->nama }}</td>
-                    <td>{{ $barangMentah->kategori }}</td>
+                    <td>{{ $barangMentah->kategori->nama }}</td>
                     <td>{{ $barangMentah->satuan_hitung }}</td>
                     <td>{{ $barangMentah->ukuran }}</td>
                     <td>{{ $barangMentah->stok }}</td>

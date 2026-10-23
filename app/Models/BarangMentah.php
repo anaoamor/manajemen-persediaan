@@ -25,7 +25,7 @@ class BarangMentah extends Model
 
     public function kategori(): BelongsTo
     {
-        return $this->belongsTo(Kategori::class);
+        return $this->belongsTo(Kategori::class, 'id_kategori', 'id');
     }
 
     public function pemasok(): BelongsTo
