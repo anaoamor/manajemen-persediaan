@@ -2,6 +2,9 @@
 <nav id="sidebar">
 
     <ul class="list-unstyled components">
+        <li class="{{ request()->routeIs('pemasok.*') ? 'active' : '' }}">
+          <a href="{{ route('pemasok.index') }}">Pemasok</a>
+        </li>
         <li class="{{ request()->routeIs('barang-mentah.*') ? 'active' : '' }}">
             <a href="{{ route('barang-mentah.index') }}">Barang Mentah</a>
         </li>

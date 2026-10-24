@@ -15,7 +15,7 @@ class BarangMentahController extends Controller
      */
     public function index()
     {
-      $barangMentahs = BarangMentah::with('kategori')->paginate(15);
+      $barangMentahs = BarangMentah::with('kategori')->orderByDesc('id')->paginate(15);
       return view('barang-mentah.index',compact('barangMentahs'));
     }
 
@@ -24,7 +24,9 @@ class BarangMentahController extends Controller
      */
     public function create()
     {
-        return view('barang-mentah.create');
+        return view('barang-mentah.create', [
+          'pemasoks' => Pemasok::get(),
+        ]);
     }
 
     /**
@@ -32,15 +34,35 @@ class BarangMentahController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([ 
+       $validatedData = $request->validate([ 
             'kode_item' => 'required|string',  
-            'nama' => 'required|string',
+            'nama_barang' => 'required|string',
             'kategori' => 'required|string',
             'satuan_hitung' => 'required|string',
             'stok' => 'required|integer',
             'ukuran' => 'required|string',
-            'harga' => 'required|numeric',
+            'harga_per_satuan' => 'required|numeric|min:0',
+            'nama' => 'string',
+            'no_telepon' => 'numeric|max:15',
+            'alamat' => 'string',
         ]);
+        
+        DB::transaction(function() use ($validatedData)
+        {
+          $kategori = Kategori::create([
+            'nama' => $validatedData['kategori'],
+          ]);
+          
+          $kategori->barangMentah()->create([
+            'kode_item' => $validatedData['kode_item'],
+            'nama' => $validatedData['nama_barang'],
+            'satuan_hitung' => $validatedData['satuan_hitung'],
+            'stok' => $validatedData['stok'],
+            'ukuran' => $validatedData['ukuran'],
+            'waktu' => now(),
+            'harga_satuan' => $validatedData['harga_per_satuan'],
+          ]);
+        }); 
     }
 
     /**

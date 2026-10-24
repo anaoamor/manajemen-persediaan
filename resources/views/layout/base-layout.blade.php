@@ -33,7 +33,7 @@
     </div>
     </footer>
 
-    <script src="../js/bootstrap.bundle.js"></script>
+    <script src="{{ asset('js/bootstrap.bundle.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.7/dist/sweetalert2.all.min.js"></script>
 
 </body>

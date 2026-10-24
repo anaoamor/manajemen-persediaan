@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('ukuran');
             $table->foreignId('id_pemasoks')->constrained('pemasoks');
             $table->timestamp('waktu');
-            $table->decimal('harga_satuan',10,2);
+            $table->decimal('harga_satuan');
         });
     }
 

@@ -3,11 +3,20 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BarangJadiController;
 use App\Http\Controllers\BarangMentahController;
+use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\PembuatanController;
 use App\Http\Controllers\PenjualanController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', [BarangMentahController::class, 'index']);
+
+Route::get('/pemasok/index', [PemasokController::class, 'index'])->name('pemasok.index');
+Route::get('/pemasok/create', [PemasokController::class, 'create'])->name('pemasok.create');
+Route::post('/pemasok/store', [PemasokController::class, 'store'])->name('pemasok.store');
+Route::get('/pemasok/show/{id}', [PemasokController::class, 'show'])->name('pemasok.show');
+Route::get('/pemasok/edit/{id}', [PemasokController::class, 'edit'])->name('pemasok.edit');
+Route::put('/pemasok/update/{id}', [PemasokController::class, 'update'])->name('pemasok.update');
+Route::delete('/pemasok/destroy/{id}', [PemasokController::class, 'destroy'])->name('pemasok.destroy');
 
 Route::get('/barang-mentah/index', [BarangMentahController::class, 'index'])->name('barang-mentah.index');
 Route::get('/barang-mentah/create', [BarangMentahController::class, 'create'])->name('barang-mentah.create');
