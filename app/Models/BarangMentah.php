@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -37,4 +38,5 @@ class BarangMentah extends Model
     {
         return $this->hasMany(BarangMentahDipakai::class, 'id_barang_mentah');
     }
+
 }

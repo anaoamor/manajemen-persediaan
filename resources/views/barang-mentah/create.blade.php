@@ -31,9 +31,14 @@
                 @enderror
               </div>
               <div class="mb-3">
-                <label for="kategori" class="form-label">Kategori</label>
-                <input type="text" class="form-control" name="kategori" id="kategori" value="{{ old('kategori') }}">
-                @error('kategori')
+                <label for="id_kategori" class="form-label">Kategori</label>
+                <select class="form-select" id="id_kategori" name="id_kategori" aria-label="Kategori">
+                  <option>Pilih kategori</option>
+                  @foreach ($kategoris as $kategori)
+                    <option @selected(old('id_kategori') == $kategori->id) value="{{ $kategori->id }}">{{ $kategori->nama }}</option>
+                  @endforeach
+                </select>
+                @error('id_kategori')
                   <small class="text-danger pesan-error">{{ $message }}</small>
                 @enderror  
               </div>
@@ -45,6 +50,7 @@
                   <option value="Lembar" @selected(old('satuan_hitung') == "Lembar")>Lembar</option>
                   <option value="Kaleng" @selected(old('satuan_hitung') == "Kaleng")>Kaleng</option>
                   <option value="Buah" @selected(old('satuan_hitung') == "Buah")>Buah</option>
+                  <option value="Kg" @selected(old('satuan_hitung') == "Kg")>Kg</option>
                 </select>
                 @error('satuan_hitung')
                   <small class="text-danger pesan-error">{{ $message }}</small>
@@ -66,7 +72,7 @@
               </div>
               <div class="mb-3">
                 <label for="harga_per_satuan" class="form-label">Harga Per Satuan</label>
-                <input type="text" class="form-control" name="harga_per_satuan" id="harga_per_satuan" value="{{ old('harga_per_satuan') }}">
+                <input type="text" class="form-control" name="harga_per_satuan" id="harga_per_satuan" value="{{ old('harga_per_satuan') }}" placeholder="Rp 30.000">
                 @error('harga_per_satuan')
                   <small class="text-danger pesan-error">{{ $message }}</small>
                 @enderror
@@ -76,34 +82,24 @@
                 <div class="mb-3">
                   <label for="id_supplier">Pemasok</label>
                   <select class="form-select" name="id_supplier" id="id_supplier" aria-label="Pemasok">
-                    <option value="0">Pilih pemasok yang tersedia</option>
+                    <option>Pilih pemasok yang tersedia</option>
                     @foreach ($pemasoks as $pemasok)
                       <option @selected(old('id_supplier') == $pemasok->id) value="{{ $pemasok->id }}" data-id="{{ $pemasok->id }}" data-nama="{{ $pemasok->nama }}" data-no_telepon="{{ $pemasok->no_telepon }}" data-alamat="{{ $pemasok->alamat }}">
                         {{ $pemasok->nama }}
                       </option>
                     @endforeach
                   </select>
-                </div>
-                <div class="mb-3">
-                  <label for="nama_supplier" class="form-label">Nama</label>
-                  <input type="text" class="form-control" name="nama_supplier" id="nama_supplier" value="{{ old('nama_supplier') }}">
-                  @error('nama')
-                    <small class="text-danger pesan-error">{{ $message }}</small>  
+                  @error('id_supplier')
+                    <small class="text-danger pesan-error">{{ $message }}</small>
                   @enderror
                 </div>
                 <div class="mb-3">
                   <label for="no_telepon" class="form-label">No Telepon</label>
-                  <input type="text" class="form-control" name="no_telepon" id="no_telepon" value="{{ old('no_telepon') }}">
-                  @error('no_telepon')
-                    <small class="text-danger pesan-error">{{ $message }}</small>  
-                  @enderror
+                  <input readonly type="text" class="form-control bg-white" name="no_telepon" id="no_telepon" value="{{ old('no_telepon') }}">
                 </div>
                 <div class="mb-3">
                   <label for="alamat" class="form-label">Alamat</label>
-                  <textarea name=alamat" id="alamat" class="form-control" rows="5">{{ old('alamat') }}</textarea>
-                  @error('alamat')
-                    <small class="text-danger pesan-error">{{ $message }}</small>
-                  @enderror
+                  <textarea readonly name="alamat" id="alamat" class="form-control bg-white" rows="5">{{ old('alamat') }}</textarea>
                 </div>
               </fieldset>
               <br>
@@ -125,12 +121,10 @@
 <script>
   document.getElementById('id_supplier').addEventListener('change', function(){
     const idPemasok = this.selectedOptions[0];
-    document.getElementById('nama_supplier').value = idPemasok.dataset.nama ?? '';
     document.getElementById('no_telepon').value = idPemasok.dataset.no_telepon ?? '';
     document.getElementById('alamat').value = idPemasok.dataset.alamat ?? '';
 
     if(!idPemasok | !this.value){
-      document.getElementById('nama_supplier').value = '';
       document.getElementById('no_telepon').value = '';
       document.getElementById('alamat').value = '';
       return;

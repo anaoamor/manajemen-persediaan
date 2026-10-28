@@ -3,9 +3,11 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BarangJadiController;
 use App\Http\Controllers\BarangMentahController;
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\PembuatanController;
 use App\Http\Controllers\PenjualanController;
+use App\Models\Kategori;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', [BarangMentahController::class, 'index']);
@@ -16,7 +18,12 @@ Route::post('/pemasok/store', [PemasokController::class, 'store'])->name('pemaso
 Route::get('/pemasok/show/{id}', [PemasokController::class, 'show'])->name('pemasok.show');
 Route::get('/pemasok/edit/{id}', [PemasokController::class, 'edit'])->name('pemasok.edit');
 Route::put('/pemasok/update/{id}', [PemasokController::class, 'update'])->name('pemasok.update');
-Route::delete('/pemasok/destroy/{id}', [PemasokController::class, 'destroy'])->name('pemasok.destroy');
+Route::get('/pemasok/destroy/{id}', [PemasokController::class, 'destroy'])->name('pemasok.destroy');
+Route::get('/pemasok/search', [PemasokController::class, 'search'])->name('pemasok.search');
+
+Route::get('/kategori/index', [KategoriController::class, 'index'])->name('kategori.index');
+Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
+Route::post('/kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
 
 Route::get('/barang-mentah/index', [BarangMentahController::class, 'index'])->name('barang-mentah.index');
 Route::get('/barang-mentah/create', [BarangMentahController::class, 'create'])->name('barang-mentah.create');
@@ -24,7 +31,7 @@ Route::post('/barang-mentah/store', [BarangMentahController::class, 'store'])->n
 Route::get('/barang-mentah/show/{id}', [BarangMentahController::class, 'show'])->name('barang-mentah.show');
 Route::get('/barang-mentah/edit/{id}', [BarangMentahController::class, 'edit'])->name('barang-mentah.edit');
 Route::put('/barang-mentah/update/{id}', [BarangMentahController::class, 'update'])->name('barang-mentah.update');
-Route::delete('/barang-mentah/destroy/{id}', [BarangMentahController::class, 'destroy'])->name('barang-mentah.destroy');
+Route::get('/barang-mentah/destroy/{id}', [BarangMentahController::class, 'destroy'])->name('barang-mentah.destroy');
 
 Route::get('/barang-jadi/index', [BarangJadiController::class, 'index'])->name('barang-jadi.index');
 Route::get('/barang-jadi/show/{id}', [BarangJadiController::class, 'show'])->name('barang-jadi.show');

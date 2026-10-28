@@ -53,19 +53,3 @@
   </div>
   
 </x-app-layout>
-<script>
-  document.getElementById('id_supplier').addEventListener('change', function(){
-    const idPemasok = this.selectedOptions[0];
-    document.getElementById('nama_supplier').value = idPemasok.dataset.nama ?? '';
-    document.getElementById('no_telepon').value = idPemasok.dataset.no_telepon ?? '';
-    document.getElementById('alamat').value = idPemasok.dataset.alamat ?? '';
-
-    if(!idPemasok | !this.value){
-      document.getElementById('nama_supplier').value = '';
-      document.getElementById('no_telepon').value = '';
-      document.getElementById('alamat').value = '';
-      return;
-    }
-
-  })
-</script>

@@ -42,7 +42,7 @@ class PemasokController extends Controller
           'alamat' => $validatedData['alamat'],
         ]);
 
-        return redirect()->route('pemasok.index')->with('success', 'Pemasok berhasil ditambahkan');
+        return redirect()->route('pemasok.index')->with('tambah success', 'Pemasok berhasil ditambahkan');
 
     }
 
@@ -61,7 +61,9 @@ class PemasokController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('pemasok.edit', [
+          'pemasok' => Pemasok::find($id),
+        ]);
     }
 
     /**
@@ -69,7 +71,21 @@ class PemasokController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+          'nama' => 'required|string',
+          'no_telepon' => 'required|numeric',
+          'alamat' => 'required|string',
+        ]);
+
+        $pemasok = Pemasok::findOrFail($id);
+
+        $pemasok->nama = $request->nama;
+        $pemasok->no_telepon = $request->no_telepon;
+        $pemasok->alamat = $request->alamat;
+        $pemasok->save();
+        $pemasok->update();
+
+        return redirect()->route('pemasok.index')->with('edit success', 'Pemasok berhasil diperbarui');
     }
 
     /**
@@ -77,6 +93,24 @@ class PemasokController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $pemasok = Pemasok::findOrFail($id)->delete();
+        
+        return redirect()->route('pemasok.index')->with('success', 'Pemasok berhasil dihapus');
+    }
+
+    public function search(Request $request){
+      $searchTerm = $request->input('search');
+      
+      $pemasoks = Pemasok::query()
+      ->when($searchTerm, function($query, $searchTerm){
+        $query->where(function ($query) use ($searchTerm){
+          $query->where('nama', 'LIKE', "%{$searchTerm}%");
+        });
+      })
+      ->orderByDesc('id')
+      ->paginate()
+      ->withQueryString();
+
+      return view('pemasok.search', compact('pemasoks', 'searchTerm'));
     }
 }
