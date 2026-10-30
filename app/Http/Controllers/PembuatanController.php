@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\BarangJadi;
+use App\Models\BarangMentah;
+use App\Models\KategoriPerabot;
 use App\Models\Pembuatan;
 use DB;
 use Illuminate\Http\Request;
@@ -37,7 +39,10 @@ class PembuatanController extends Controller
      */
     public function create()
     {
-        return view('buat.create');
+        return view('buat.create', [
+          'kategoris' => KategoriPerabot::get(),
+          'barangMentahs' => BarangMentah::get(),
+        ]);
     }
 
     /**

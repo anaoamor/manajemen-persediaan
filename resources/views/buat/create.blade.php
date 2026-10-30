@@ -36,78 +36,45 @@
                   <small class="text-danger pesan-error">{{ $message }}</small>
                 @enderror
               </div>
-              <div class="mb-3">
-                <label for="id_kategori" class="form-label">Kategori</label>
-                <select class="form-select" id="id_kategori" name="id_kategori" aria-label="Kategori">
-                  <option>Pilih kategori</option>
-                  @foreach ($kategoris as $kategori)
-                    <option @selected(old('id_kategori') == $kategori->id) value="{{ $kategori->id }}">{{ $kategori->nama }}</option>
-                  @endforeach
-                </select>
-                @error('id_kategori')
-                  <small class="text-danger pesan-error">{{ $message }}</small>
-                @enderror  
-              </div>
-              <div class="mb-3">
-                <label for="satuan_hitung" class="form-label">Satuan Hitung</label>
-                <select class="form-select" name="satuan_hitung" id="satuan_hitung" aria-label="Satuan Hitung">
-                  <option>Pilih satuan hitung</option>
-                  <option value="Batang" @selected(old('satuan_hitung') == "Batang")>Batang</option>
-                  <option value="Lembar" @selected(old('satuan_hitung') == "Lembar")>Lembar</option>
-                  <option value="Kaleng" @selected(old('satuan_hitung') == "Kaleng")>Kaleng</option>
-                  <option value="Buah" @selected(old('satuan_hitung') == "Buah")>Buah</option>
-                  <option value="Kg" @selected(old('satuan_hitung') == "Kg")>Kg</option>
-                </select>
-                @error('satuan_hitung')
-                  <small class="text-danger pesan-error">{{ $message }}</small>
-                @enderror
-              </div>
-              <div class="mb-3">
-                <label for="stok" class="form-label">Stok</label>
-                <input type="text" class="form-control" name="stok" id="stok" value="{{ old('stok') }}">
-                @error('stok')
-                  <small class="text-danger pesan-error">{{ $message }}</small>
-                @enderror
-              </div>
-              <div class="mb-3">
-                <label for="ukuran" class="form-label">Ukuran</label>
-                <input name="ukuran" id="ukuran" type="text" class="form-control" value="{{ old('ukuran') }}">
-                @error('ukuran')
-                  <small class="text-danger pesan-error">{{ $message }}</small>
-                @enderror
-              </div>
-              <div class="mb-3">
-                <label for="harga_per_satuan" class="form-label">Harga Per Satuan (Rp)</label>
-                <input type="text" class="form-control" name="harga_per_satuan" id="harga_per_satuan" value="{{ old('harga_per_satuan') }}">
-                @error('harga_per_satuan')
-                  <small class="text-danger pesan-error">{{ $message }}</small>
-                @enderror
-              </div>
-              <fieldset class="border rounded-3 p-3">
-                <legend class="float-none w-auto px-3">Pemasok</legend>
-                <div class="mb-3">
-                  <label for="id_supplier">Pemasok</label>
-                  <select class="form-select" name="id_supplier" id="id_supplier" aria-label="Pemasok">
-                    <option>Pilih pemasok yang tersedia</option>
-                    @foreach ($pemasoks as $pemasok)
-                      <option @selected(old('id_supplier') == $pemasok->id) value="{{ $pemasok->id }}" data-id="{{ $pemasok->id }}" data-nama="{{ $pemasok->nama }}" data-no_telepon="{{ $pemasok->no_telepon }}" data-alamat="{{ $pemasok->alamat }}">
-                        {{ $pemasok->nama }}
-                      </option>
-                    @endforeach
-                  </select>
-                  @error('id_supplier')
-                    <small class="text-danger pesan-error">{{ $message }}</small>
-                  @enderror
+              <fieldset class="border rounded-3 p-3" id="barang-mentah-fs">
+                <legend class="float-none w-auto px-3">Barang Mentah</legend>
+                <div class="barang-mentah-container" id="barang-mentah-container">
+                  <div class="mb-3 row">
+                    <div class="col">
+                      <label for="id_barang_mentah" class="form-label">Barang Mentah 1</label>
+                      <select class="form-select" name="id_barang_mentah[]" id="id_barang_mentah" aria-label="Barang Mentah">
+                        <option>Pilih barang mentah</option>
+                        @foreach ($barangMentahs as $barangMentah)
+                          <option @selected(old('id_barang_mentah') == $barangMentah->id) value="{{ $barangMentah->id }}">
+                            {{ $barangMentah->nama }}
+                          </option>
+                        @endforeach
+                      </select>
+                      @error('id_barang_mentah')
+                        <small class="text-danger pesan-error">{{ $message }}</small>
+                      @enderror
+                    </div>
+                    <div class="col">
+                      <label for="jumlah_barang_mentah" class="form-label">Jumlah</label>
+                      <input type="number" name="jumlah_barang_mentah[]" id="jumlah_barang_mentah" class="form-control" value="{{ old('jumlah_barang_mentah') }}">
+                    </div>
+                    @error('jumlah_barang_mentah')
+                      <small class="text-danger pesan-error">{{ $message }}</small>
+                    @enderror
+                  </div>
                 </div>
-                <div class="mb-3">
-                  <label for="no_telepon" class="form-label">No Telepon</label>
-                  <input readonly type="text" class="form-control bg-white" name="no_telepon" id="no_telepon" value="{{ old('no_telepon') }}">
-                </div>
-                <div class="mb-3">
-                  <label for="alamat" class="form-label">Alamat</label>
-                  <textarea readonly name="alamat" id="alamat" class="form-control bg-white" rows="5">{{ old('alamat') }}</textarea>
+                
+                <div class="row">
+                  <button id="tambah-btn" class="btn btn-info text-white btn-sm" style="width:95px;">Tambah</button>
                 </div>
               </fieldset>
+              <div class="mb-3">
+                <label for="jumlah" class="form-label">Jumlah</label>
+                <input type="number" name="jumlah" id="jumlah" class="form-control" value="{{ old('jumlah') }}">
+                @error('jumlah')
+                  <small class="text-danger pesan-error">{{ $message }}</small>
+                @enderror
+              </div>
               <br>
               <br>
               <div class="mb-3">
@@ -123,3 +90,39 @@
     </div>
   </div>
 </x-app-layout>
+<script>
+  const barangMentahContainer = document.getElementById('barang-mentah-container');
+  const tambahBtn = document.getElementById('tambah-btn');
+  const indexBarangMentah = 2;
+
+  <div class="mb-3 row">
+                    <div class="col">
+                      <label for="id_barang_mentah" class="form-label">Barang Mentah 1</label>
+                      <select class="form-select" name="id_barang_mentah[]" id="id_barang_mentah" aria-label="Barang Mentah">
+                        <option>Pilih barang mentah</option>
+                        @foreach ($barangMentahs as $barangMentah)
+                          <option @selected(old('id_barang_mentah') == $barangMentah->id) value="{{ $barangMentah->id }}">
+                            {{ $barangMentah->nama }}
+                          </option>
+                        @endforeach
+                      </select>
+                      @error('id_barang_mentah')
+                        <small class="text-danger pesan-error">{{ $message }}</small>
+                      @enderror
+                    </div>
+                    <div class="col">
+                      <label for="jumlah_barang_mentah" class="form-label">Jumlah</label>
+                      <input type="number" name="jumlah_barang_mentah[]" id="jumlah_barang_mentah" class="form-control" value="{{ old('jumlah_barang_mentah') }}">
+                    </div>
+                    @error('jumlah_barang_mentah')
+                      <small class="text-danger pesan-error">{{ $message }}</small>
+                    @enderror
+                  </div>
+
+  tambahBtn.addEventListener('click', function(){
+    const barangMentahRecord = document.createElement('div');
+    barangMentahRecord.classList.add('mb-3', 'row');
+    
+  });
+  console.log(tambahBtn);
+</script>
