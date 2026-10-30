@@ -17,11 +17,11 @@ class BarangMentahDipakai extends Model
 
     public function barangMentah(): BelongsTo
     {
-        return $this->belongsTo(BarangMentah::class);
+        return $this->belongsTo(BarangMentah::class, 'id_barang_mentah');
     }
 
     public function pembuatan(): BelongsTo
     {
-        return $this->belongsTo(Pembuatan::class);
+        return $this->belongsTo(Pembuatan::class, 'id_pembuatan');
     }
 }

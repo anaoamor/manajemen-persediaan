@@ -34,11 +34,7 @@ class BarangMentahController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-      $harga_satuan = $request->input('harga_per_satuan');
-      $harga_satuan_clean = str_replace(['Rp', ' ', '.'],'', $harga_satuan);
-      $request->merge(['harga_per_satuan' => (float) $harga_satuan_clean]);
-      
+    {      
        $validatedData = $request->validate([ 
             'kode_item' => 'required|string',  
             'nama_barang' => 'required|string',
@@ -84,12 +80,12 @@ class BarangMentahController extends Controller
     public function edit(string $id)
     {
       $barangMentah = BarangMentah::findOrFail($id);
-      $kategori = Kategori::findOrFail($barangMentah->kategori->id);
+      $kategoriTerpilih = Kategori::findOrFail($barangMentah->kategori->id);
       $pemasokTerpilih = Pemasok::findOrFail($barangMentah->pemasok->id);
       $kategoris = Kategori::orderByDesc('id')->get();
       $pemasoks = Pemasok::orderByDesc('id')->get();
 
-        return view('barang-mentah.edit', compact('barangMentah', 'kategori', 'pemasokTerpilih', 'pemasoks', 'kategoris'));
+        return view('barang-mentah.edit', compact('barangMentah', 'kategoriTerpilih', 'pemasokTerpilih', 'pemasoks', 'kategoris'));
     }
 
     /**
@@ -97,10 +93,6 @@ class BarangMentahController extends Controller
      */
     public function update(Request $request, string $id)
     {
-      $hargaSatuan = $request->input('harga_per_satuan');
-      $hargaSatuanClean = (float) str_replace(['Rp', ' ', '.', ','], '', $hargaSatuan);
-      $request->merge(['harga_per_satuan' => $hargaSatuanClean]);
-      
       $validatedData = $request->validate([
         'kode_item' => 'required|string',  
         'nama_barang' => 'required|string',
@@ -133,6 +125,22 @@ class BarangMentahController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $barangMentah = BarangMentah::findOrFail($id)->delete();
+
+        return redirect()->route('barang-mentah.index')->with('success', 'Barang mentah berhasil dihapus');
+    }
+
+    public function search(Request $request)
+    {
+      $searchTerm = $request->input('search');
+      $barangMentahs = BarangMentah::with('kategori')
+      ->when($searchTerm, function($query, $searchTerm){
+        $query->where('nama', 'LIKE', "%{$searchTerm}%");
+      })
+      ->orderByDesc('id')
+      ->paginate(15)
+      ->withQueryString();
+      
+      return view('barang-mentah.search', compact('barangMentahs', 'searchTerm'));
     }
 }

@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('barang_jadis', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_kategori_perabot')->constrained();
-            $table->text('deskripsi');
-            $table->decimal('harga_minimal', 10, 2);
+            $table->foreignId('id_kategori_perabot')->constrained('kategori_perabots');
+            $table->foreignId('id_pembuatan')->constrained('pembuatans');
+            $table->string('nama');
+            $table->text('deskripsi')->nullable();
+            $table->decimal('harga_minimal', 10, 2)->nullable();
             $table->integer('jumlah');
         });
     }

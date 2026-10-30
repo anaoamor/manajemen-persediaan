@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('pembuatans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_barang_jadi')->constrained();
             $table->timestamp('waktu');
             $table->integer('jumlah');
             $table->string('status');

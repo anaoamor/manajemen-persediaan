@@ -16,12 +16,12 @@
         
         <div class="row justify-content-center">
           <div class="col-8">
-            @if ($barangMentah->stok <= 10)
-              <div class='alert alert-danger' role='alert'>Stok Bibit Tanaman telah menipis</div>
+            @if ($barangMentah->stok <= 3)
+              <div class='alert alert-danger' role='alert'>Stok telah menipis</div>
             @endif
               <div class="mb-3">
-                <label for="id_bahan_mentah" class="form-label">ID</label>
-                <input readonly type="text" class="form-control bg-white" name="id_bahan_mentah" id="id_bahan_mentah" value="{{ $barangMentah->id }}">
+                <label for="id_barang_mentah" class="form-label">ID</label>
+                <input readonly type="text" class="form-control bg-white" name="id_barang_mentah" id="id_barang_mentah" value="{{ $barangMentah->id }}">
               </div>
               <div class="mb-3">
                 <label for="waktu" class="form-label">Waktu</label>

@@ -44,7 +44,7 @@
                 <select class="form-select" id="id_kategori" name="id_kategori" aria-label="Kategori">
                   <option>Pilih kategori</option>
                   @foreach ($kategoris as $kategori)
-                    <option @selected(old('id_kategori', $kategori->id) == $kategori->id) value="{{ $kategori->id }}">{{ $kategori->nama }}</option>
+                    <option @selected(old('id_kategori', $kategoriTerpilih->id) == $kategori->id) value="{{ $kategori->id }}">{{ $kategori->nama }}</option>
                   @endforeach
                 </select>
                 @error('id_kategori')
@@ -80,8 +80,8 @@
                 @enderror
               </div>
               <div class="mb-3">
-                <label for="harga_per_satuan" class="form-label">Harga Per Satuan</label>
-                <input type="text" class="form-control" name="harga_per_satuan" id="harga_per_satuan" value="{{ old('harga_per_satuan', Number::currency($barangMentah->harga_satuan, 'IDR', 'id')) }}" placeholder="Rp 30.000">
+                <label for="harga_per_satuan" class="form-label">Harga Per Satuan (Rp)</label>
+                <input type="number" class="form-control" name="harga_per_satuan" id="harga_per_satuan" value="{{ old('harga_per_satuan', $barangMentah->harga_satuan) }}">
                 @error('harga_per_satuan')
                   <small class="text-danger pesan-error">{{ $message }}</small>
                 @enderror

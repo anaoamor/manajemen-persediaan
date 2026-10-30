@@ -17,6 +17,6 @@ class Pemasok extends Model
 
     public function barangMentah(): HasMany
     {
-        return $this->hasMany(BarangMentah::class);
+        return $this->hasMany(BarangMentah::class, 'id_pemasoks');
     }
 }

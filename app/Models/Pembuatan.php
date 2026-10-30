@@ -10,15 +10,14 @@ class Pembuatan extends Model
 {
   public $timestamps = false;
     protected $fillable = [
-        'id_barang_jadi',
-        'waktu',
         'jumlah',
+        'waktu',
         'status',
     ];
 
     public function barangJadi():HasOne
     {
-        return $this->hasOne(BarangJadi::class);
+        return $this->hasOne(BarangJadi::class, 'id_pembuatan');
     }
 
     public function barangMentahDipakai(): HasMany

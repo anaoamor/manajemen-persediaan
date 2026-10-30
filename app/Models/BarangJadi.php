@@ -11,6 +11,8 @@ class BarangJadi extends Model
   public $timestamps = false;
     protected $fillable = [
         'id_kategori_perabot',
+        'id_pembuatan',
+        'nama',
         'deskripsi',
         'harga_minimal',
         'jumlah',
@@ -28,6 +30,6 @@ class BarangJadi extends Model
 
     public function kategoriPerabot(): BelongsTo
     {
-        return $this->belongsTo(KategoriPerabot::class);
+        return $this->belongsTo(KategoriPerabot::class, 'id_kategori_perabot');
     }
 }

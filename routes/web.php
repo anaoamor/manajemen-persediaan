@@ -32,6 +32,7 @@ Route::get('/barang-mentah/show/{id}', [BarangMentahController::class, 'show'])-
 Route::get('/barang-mentah/edit/{id}', [BarangMentahController::class, 'edit'])->name('barang-mentah.edit');
 Route::put('/barang-mentah/update/{id}', [BarangMentahController::class, 'update'])->name('barang-mentah.update');
 Route::get('/barang-mentah/destroy/{id}', [BarangMentahController::class, 'destroy'])->name('barang-mentah.destroy');
+Route::get('/barang-mentah/search', [BarangMentahController::class, 'search'])->name('barang-mentah.search');
 
 Route::get('/barang-jadi/index', [BarangJadiController::class, 'index'])->name('barang-jadi.index');
 Route::get('/barang-jadi/show/{id}', [BarangJadiController::class, 'show'])->name('barang-jadi.show');

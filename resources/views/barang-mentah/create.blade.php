@@ -71,8 +71,8 @@
                 @enderror
               </div>
               <div class="mb-3">
-                <label for="harga_per_satuan" class="form-label">Harga Per Satuan</label>
-                <input type="text" class="form-control" name="harga_per_satuan" id="harga_per_satuan" value="{{ old('harga_per_satuan') }}" placeholder="Rp 30.000">
+                <label for="harga_per_satuan" class="form-label">Harga Per Satuan (Rp)</label>
+                <input type="text" class="form-control" name="harga_per_satuan" id="harga_per_satuan" value="{{ old('harga_per_satuan') }}">
                 @error('harga_per_satuan')
                   <small class="text-danger pesan-error">{{ $message }}</small>
                 @enderror

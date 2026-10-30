@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BarangJadi;
+use App\Models\Pembuatan;
+use DB;
 use Illuminate\Http\Request;
 
 class PembuatanController extends Controller
@@ -11,7 +14,22 @@ class PembuatanController extends Controller
      */
     public function index()
     {
-        //
+
+      DB::transaction(function(){
+        $pembuatan = Pembuatan::create([
+          'waktu' => now(),
+          'jumlah' => 10,
+          'status' => 'Proses',
+        ]);
+
+        $pembuatan->barangJadi()->create([
+          'id_kategori_perabot' => 1,
+          'nama' => 'Lemari',
+          'jumlah' => 10,
+        ]);
+        
+      });
+        
     }
 
     /**
@@ -19,7 +37,7 @@ class PembuatanController extends Controller
      */
     public function create()
     {
-        //
+        return view('buat.create');
     }
 
     /**
