@@ -1,7 +1,6 @@
 <x-app-layout>
   <x-nav-bar/>
   <x-side-bar/>
-
   <div class="wrapper">
     <!-- Main Content -->
     <div id="main">
@@ -14,115 +13,143 @@
 
         <div class="row justify-content-center">
           <div class="col-8">
+
             <!-- Form untuk proses insert -->
             <form method="post" action="{{ route('pembuatan.store') }}">
               @csrf
               <div class="mb-3">
-                <label for="nama_barang" class="form-label">Nama</label>
-                <input type="text" class="form-control" name="nama_barang" id="nama_barang" value="{{ old('nama_barang') }}">
-                @error('nama_barang')
-                  <small class="text-danger pesan-error">{{ $message }}</small>  
-                @enderror
+                <label for="nama_barang_jadi" class="form-label">Nama</label>
+                <input type="text" class="form-control" name="nama_barang_jadi" id="nama_barang_jadi">
+                <small class="text-danger pesan-error" id="nama_barang_jadi_error"></small>  
               </div>
               <div class="mb-3">
                 <label for="id_kategori" class="form-label">Kategori</label>
                 <select name="id_kategori" id="id_kategori" class="form-select" aria-label="Kategori">
-                  <option>Pilih kategori</option>
+                  <option value="">Pilih kategori</option>
                   @foreach ($kategoris as $kategori)
-                    <option @selected(old('id_kategori') == $kategori->id) value="{{ $kategori->id }}">{{ $kategori->nama }}</option>
+                    <option value="{{ $kategori->id }}">{{ $kategori->nama }}</option>
                   @endforeach
                 </select>
-                @error('id_kategori')
-                  <small class="text-danger pesan-error">{{ $message }}</small>
-                @enderror
+                <small class="text-danger pesan-error" id="id_kategori_error"></small>
               </div>
-              <fieldset class="border rounded-3 p-3" id="barang-mentah-fs">
+
+              <fieldset class="mb-3 border rounded-3 p-3">
                 <legend class="float-none w-auto px-3">Barang Mentah</legend>
-                <div class="barang-mentah-container" id="barang-mentah-container">
-                  <div class="mb-3 row">
+                <div id="barang-mentah-error"></div>
+                <div id="barang-mentah-container" class="container">
+                  <div class="row barang-mentah-row mb-3 align-items-center">
                     <div class="col">
-                      <label for="id_barang_mentah" class="form-label">Barang Mentah 1</label>
-                      <select class="form-select" name="id_barang_mentah[]" id="id_barang_mentah" aria-label="Barang Mentah">
-                        <option>Pilih barang mentah</option>
+                      <select class="form-select" name="id_barang_mentah" id="id_barang_mentah" aria-label="Barang Mentah">
+                        <option>Pilih Barang Mentah</option>
                         @foreach ($barangMentahs as $barangMentah)
-                          <option @selected(old('id_barang_mentah') == $barangMentah->id) value="{{ $barangMentah->id }}">
+                          <option value="{{ $barangMentah->id }}">
                             {{ $barangMentah->nama }}
                           </option>
                         @endforeach
                       </select>
-                      @error('id_barang_mentah')
-                        <small class="text-danger pesan-error">{{ $message }}</small>
-                      @enderror
                     </div>
                     <div class="col">
-                      <label for="jumlah_barang_mentah" class="form-label">Jumlah</label>
-                      <input type="number" name="jumlah_barang_mentah[]" id="jumlah_barang_mentah" class="form-control" value="{{ old('jumlah_barang_mentah') }}">
+                      <input type="number" class="form-control" name="jumlah_barang_mentah" id="jumlah_barang_mentah" placeholder="Jumlah">
                     </div>
-                    @error('jumlah_barang_mentah')
-                      <small class="text-danger pesan-error">{{ $message }}</small>
-                    @enderror
+                    <div class="col">
+                      <button class="btn btn-info text-white tambah-btn"  style="width: 95px">Tambah</button>
+                    </div>
                   </div>
-                </div>
-                
-                <div class="row">
-                  <button id="tambah-btn" class="btn btn-info text-white btn-sm" style="width:95px;">Tambah</button>
-                </div>
+              </div>
               </fieldset>
               <div class="mb-3">
                 <label for="jumlah" class="form-label">Jumlah</label>
-                <input type="number" name="jumlah" id="jumlah" class="form-control" value="{{ old('jumlah') }}">
-                @error('jumlah')
-                  <small class="text-danger pesan-error">{{ $message }}</small>
-                @enderror
+                <input type="number" class="form-control" name="jumlah" id="jumlah">
+                <small class="text-danger pesan-error" id="jumlah-error"></small>
               </div>
               <br>
               <br>
               <div class="mb-3">
                 <input type="submit" value="Simpan" class="btn btn-info text-white" name="submit">
-                <a id="btn-cancel" href="{{ route('barang-mentah.index') }}" class='btn btn-secondary' style="width: 95px;">Batal</a>
+                <a id="btn-cancel" href="{{ route('pembuatan.index') }}" class='btn btn-secondary' style="width: 95px;">Batal</a>
               </div>
               
             </form>
+            <template id="barang-mentah-template">
+              <div class="row barang-mentah-row mb-3 align-items-center">
+                <div class="col">
+                  <select class="form-select" name="id_barang_mentah" id="id_barang_mentah" aria-label="Barang Mentah">
+                    <option>Pilih Barang Mentah</option>
+                    @foreach ($barangMentahs as $barangMentah)
+                      <option value="{{ $barangMentah->id }}">
+                        {{ $barangMentah->nama }}
+                      </option>
+                    @endforeach
+                  </select>
+                  <small class="text-danger pesan-error"></small>
+                </div>
+                <div class="col">
+                  <input type="number" class="form-control" name="jumlah_barang_mentah" id="jumlah_barang_mentah" placeholder="Jumlah">
+                  <small class="text-danger pesan-error"></small>
+                </div>
+                <div class="col">
+                  <button class="btn btn-danger hapus-btn" style="width: 95px">Hapus</button>
+                </div>
+              </div>
+            </template>
           </div>
         </div>
-  
 
     </div>
   </div>
+  
 </x-app-layout>
 <script>
   const barangMentahContainer = document.getElementById('barang-mentah-container');
-  const tambahBtn = document.getElementById('tambah-btn');
-  const indexBarangMentah = 2;
+  const barangMentahTemplate = document.getElementById('barang-mentah-template');
+  const tambahBtn = document.querySelectorAll('.tambah-btn');
+  const pembuatanForm = document.querySelector('form');
+  
+  tambahBtn.forEach(btn => {
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      const clone = barangMentahTemplate.content.cloneNode(true);
+      barangMentahContainer.appendChild(clone);
+    });
+  }); 
 
-  <div class="mb-3 row">
-                    <div class="col">
-                      <label for="id_barang_mentah" class="form-label">Barang Mentah 1</label>
-                      <select class="form-select" name="id_barang_mentah[]" id="id_barang_mentah" aria-label="Barang Mentah">
-                        <option>Pilih barang mentah</option>
-                        @foreach ($barangMentahs as $barangMentah)
-                          <option @selected(old('id_barang_mentah') == $barangMentah->id) value="{{ $barangMentah->id }}">
-                            {{ $barangMentah->nama }}
-                          </option>
-                        @endforeach
-                      </select>
-                      @error('id_barang_mentah')
-                        <small class="text-danger pesan-error">{{ $message }}</small>
-                      @enderror
-                    </div>
-                    <div class="col">
-                      <label for="jumlah_barang_mentah" class="form-label">Jumlah</label>
-                      <input type="number" name="jumlah_barang_mentah[]" id="jumlah_barang_mentah" class="form-control" value="{{ old('jumlah_barang_mentah') }}">
-                    </div>
-                    @error('jumlah_barang_mentah')
-                      <small class="text-danger pesan-error">{{ $message }}</small>
-                    @enderror
-                  </div>
-
-  tambahBtn.addEventListener('click', function(){
-    const barangMentahRecord = document.createElement('div');
-    barangMentahRecord.classList.add('mb-3', 'row');
-    
+  barangMentahContainer.addEventListener('click', function(e){
+    if(e.target.classList.contains('hapus-btn')){
+      e.preventDefault();
+      const row = e.target.closest('.barang-mentah-row').remove();        
+    }
   });
-  console.log(tambahBtn);
+  pembuatanForm.addEventListener('submit', function(e){
+    var isValid = true;
+    const namaBarangJadiInput = document.getElementById('nama_barang_jadi');
+    const idKategoriInput = document.getElementById('id_kategori');
+    const jumlahInput = document.getElementById('jumlah');
+    const namaBarangJadiError = document.getElementById('nama_barang_jadi_error');
+    const idKategoriError = document.getElementById('id_kategori_error');
+    const jumlahError = document.getElementById('jumlah-error');
+
+    // Reset error messages
+    namaBarangJadiError.textContent = '';
+    idKategoriError.textContent = '';
+    jumlahError.textContent = '';
+
+    const namaBarangJadi = namaBarangJadiInput.value.trim();
+    const idKategori = idKategoriInput.value;
+    const jumlah = jumlahInput.value;
+
+    //Validate form input
+    if(namaBarangJadi === ''){
+      namaBarangJadiError.textContent = 'Nama barang jadi harus diisi.';
+      isValid = false;
+    }
+    if(idKategori === ''){
+      idKategoriError.textContent = 'Kategori harus dipilih.';
+      isValid = false;
+    }
+    console.log(idKategori);
+
+    if(!isValid){
+      e.preventDefault();
+    }
+  });
 </script>

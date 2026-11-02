@@ -17,21 +17,22 @@ class PembuatanController extends Controller
     public function index()
     {
 
-      DB::transaction(function(){
-        $pembuatan = Pembuatan::create([
-          'waktu' => now(),
-          'jumlah' => 10,
-          'status' => 'Proses',
-        ]);
+      // DB::transaction(function(){
+      //   $pembuatan = Pembuatan::create([
+      //     'waktu' => now(),
+      //     'jumlah' => 10,
+      //     'status' => 'Proses',
+      //   ]);
 
-        $pembuatan->barangJadi()->create([
-          'id_kategori_perabot' => 1,
-          'nama' => 'Lemari',
-          'jumlah' => 10,
-        ]);
+      //   $pembuatan->barangJadi()->create([
+      //     'id_kategori_perabot' => 1,
+      //     'nama' => 'Lemari',
+      //     'jumlah' => 10,
+      //   ]);
         
-      });
+      // });
         
+      return view('buat.index');
     }
 
     /**
@@ -50,7 +51,18 @@ class PembuatanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+          'nama_barang' => 'required|string',
+          'id_kategori' => 'required|exists:kategoris,id',
+          'id_barang_mentah' => 'required|min:1',
+          'id_barang_mentah.*' => 'required|exists:barang_mentahs,id',
+          'jumlah_barang_mentah' => 'required|array|min:1',
+          'jumlah_barang_mentah.*' => 'required|numeric|min:1',
+        ]);
+
+        dump($request->id_barang_mentah);
+
+        return redirect()->route('bahan-mentah.index')->with('tambah success', 'Pembuatan barang jadi');
     }
 
     /**
