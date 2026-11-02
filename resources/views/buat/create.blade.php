@@ -35,12 +35,16 @@
 
               <fieldset class="mb-3 border rounded-3 p-3">
                 <legend class="float-none w-auto px-3">Barang Mentah</legend>
-                <div id="barang-mentah-error"></div>
+                <div>
+                  <small class="text-danger pesan-error" id="id-barang-mentah-error"></small>
+                  <br>
+                  <small class="text-danger pesan-error" id="jumlah-barang-mentah-error"></small>
+                </div>
                 <div id="barang-mentah-container" class="container">
                   <div class="row barang-mentah-row mb-3 align-items-center">
                     <div class="col">
-                      <select class="form-select" name="id_barang_mentah" id="id_barang_mentah" aria-label="Barang Mentah">
-                        <option>Pilih Barang Mentah</option>
+                      <select class="form-select" name="id_barang_mentah" aria-label="Barang Mentah">
+                        <option value="">Pilih Barang Mentah</option>
                         @foreach ($barangMentahs as $barangMentah)
                           <option value="{{ $barangMentah->id }}">
                             {{ $barangMentah->nama }}
@@ -49,7 +53,7 @@
                       </select>
                     </div>
                     <div class="col">
-                      <input type="number" class="form-control" name="jumlah_barang_mentah" id="jumlah_barang_mentah" placeholder="Jumlah">
+                      <input type="number" class="form-control" name="jumlah_barang_mentah" placeholder="Jumlah">
                     </div>
                     <div class="col">
                       <button class="btn btn-info text-white tambah-btn"  style="width: 95px">Tambah</button>
@@ -73,8 +77,8 @@
             <template id="barang-mentah-template">
               <div class="row barang-mentah-row mb-3 align-items-center">
                 <div class="col">
-                  <select class="form-select" name="id_barang_mentah" id="id_barang_mentah" aria-label="Barang Mentah">
-                    <option>Pilih Barang Mentah</option>
+                  <select class="form-select" name="id_barang_mentah" aria-label="Barang Mentah">
+                    <option value="">Pilih Barang Mentah</option>
                     @foreach ($barangMentahs as $barangMentah)
                       <option value="{{ $barangMentah->id }}">
                         {{ $barangMentah->nama }}
@@ -84,7 +88,7 @@
                   <small class="text-danger pesan-error"></small>
                 </div>
                 <div class="col">
-                  <input type="number" class="form-control" name="jumlah_barang_mentah" id="jumlah_barang_mentah" placeholder="Jumlah">
+                  <input type="number" class="form-control" name="jumlah_barang_mentah" placeholder="Jumlah">
                   <small class="text-danger pesan-error"></small>
                 </div>
                 <div class="col">
@@ -119,24 +123,33 @@
       const row = e.target.closest('.barang-mentah-row').remove();        
     }
   });
+
   pembuatanForm.addEventListener('submit', function(e){
     var isValid = true;
     const namaBarangJadiInput = document.getElementById('nama_barang_jadi');
     const idKategoriInput = document.getElementById('id_kategori');
+    const barangMentahSelects = document.querySelectorAll('select[name="id_barang_mentah"]');
+    const jumlahBarangMentahInputs = document.querySelectorAll('input[name="jumlah_barang_mentah"]');
     const jumlahInput = document.getElementById('jumlah');
     const namaBarangJadiError = document.getElementById('nama_barang_jadi_error');
     const idKategoriError = document.getElementById('id_kategori_error');
+    const idBarangMentahError = document.getElementById('id-barang-mentah-error');
+    const jumlahBarangMentahError = document.getElementById('jumlah-barang-mentah-error');
     const jumlahError = document.getElementById('jumlah-error');
 
     // Reset error messages
     namaBarangJadiError.textContent = '';
     idKategoriError.textContent = '';
     jumlahError.textContent = '';
+    idBarangMentahError.textContent = '';
+    jumlahBarangMentahError.textContent = '';
 
     const namaBarangJadi = namaBarangJadiInput.value.trim();
     const idKategori = idKategoriInput.value;
     const jumlah = jumlahInput.value;
-
+    const idBarangMentahs = Array.from(barangMentahSelects, select => select.value);
+    const jumlahBarangMentahs = Array.from(jumlahBarangMentahInputs, select => select.value);
+    console.log(jumlahBarangMentahs);
     //Validate form input
     if(namaBarangJadi === ''){
       namaBarangJadiError.textContent = 'Nama barang jadi harus diisi.';
@@ -146,10 +159,42 @@
       idKategoriError.textContent = 'Kategori harus dipilih.';
       isValid = false;
     }
-    console.log(idKategori);
+    const pattern = /^[1-9]+[0-9]*$/;
+    if(!pattern.test(jumlah)){
+      jumlahError.textContent = 'Jumlah harus angka';
+      isValid = false;
+    }
+    if(barangMentahSelects[0].value === ""){
+      console.log(barangMentahSelects[0].value);
+      idBarangMentahError.textContent = "Minimal 1 barang mentah";
+      isValid = false;
+    }
+    if(!pattern.test(jumlahBarangMentahInputs[0].value)){
+      jumlahBarangMentahError.textContent = "Jumlah harus angka";
+      isValid = false;
+    }
 
     if(!isValid){
       e.preventDefault();
+    }else{
+      const payload = {
+    nama_barang_jadi : namaBarangJadi,
+    id_kategori : idKategori,
+    id_barang_mentah: idBarangMentahs,
+    jumlah_barang_mentah: jumlahBarangMentahs,
+    jumlah: jumlah,
+  };
+
+fetch('/pembuatan/store', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+    },
+    body: JSON.stringify(payload)
+})
+.then(res => res.json())
+.then(data => console.log(data));
     }
   });
 </script>

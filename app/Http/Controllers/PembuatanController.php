@@ -41,8 +41,8 @@ class PembuatanController extends Controller
     public function create()
     {
         return view('buat.create', [
-          'kategoris' => KategoriPerabot::get(),
-          'barangMentahs' => BarangMentah::get(),
+          'kategoris' => KategoriPerabot::orderByDesc('id')->get(),
+          'barangMentahs' => BarangMentah::orderByDesc('id')->get(),
         ]);
     }
 
@@ -51,16 +51,18 @@ class PembuatanController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-          'nama_barang' => 'required|string',
-          'id_kategori' => 'required|exists:kategoris,id',
-          'id_barang_mentah' => 'required|min:1',
-          'id_barang_mentah.*' => 'required|exists:barang_mentahs,id',
-          'jumlah_barang_mentah' => 'required|array|min:1',
-          'jumlah_barang_mentah.*' => 'required|numeric|min:1',
-        ]);
+        // $validatedData = $request->validate([
+        //   'nama_barang' => 'required|string',
+        //   'id_kategori' => 'required|exists:kategoris,id',
+        //   'id_barang_mentah' => 'required|min:1',
+        //   'id_barang_mentah.*' => 'required|exists:barang_mentahs,id',
+        //   'jumlah_barang_mentah' => 'required|array|min:1',
+        //   'jumlah_barang_mentah.*' => 'required|numeric|min:1',
+        // ]);
 
-        dump($request->id_barang_mentah);
+        $namaBarangJadi = $request->input('id_bahan_mentah');
+
+        dump($namaBarangJadi[1]);
 
         return redirect()->route('bahan-mentah.index')->with('tambah success', 'Pembuatan barang jadi');
     }
