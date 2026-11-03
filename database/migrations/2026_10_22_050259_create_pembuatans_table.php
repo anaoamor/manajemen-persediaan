@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('pembuatans', function (Blueprint $table) {
             $table->id();
             $table->timestamp('waktu');
-            $table->integer('jumlah');
             $table->string('status');
         });
     }

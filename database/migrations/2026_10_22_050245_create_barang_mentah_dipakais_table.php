@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('barang_mentah_dipakais', function (Blueprint $table) {
             $table->foreignId('id_pembuatan')->constrained();
             $table->foreignId('id_barang_mentah')->constrained();
-            $table->text('deskripsi');
             $table->integer('jumlah');
         });
     }

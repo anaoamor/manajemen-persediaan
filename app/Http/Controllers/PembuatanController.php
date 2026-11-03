@@ -51,20 +51,11 @@ class PembuatanController extends Controller
      */
     public function store(Request $request)
     {
-        // $validatedData = $request->validate([
-        //   'nama_barang' => 'required|string',
-        //   'id_kategori' => 'required|exists:kategoris,id',
-        //   'id_barang_mentah' => 'required|min:1',
-        //   'id_barang_mentah.*' => 'required|exists:barang_mentahs,id',
-        //   'jumlah_barang_mentah' => 'required|array|min:1',
-        //   'jumlah_barang_mentah.*' => 'required|numeric|min:1',
-        // ]);
+        $idBarangMentahs = $request->input('id_barang_mentah.*');
+        $jumlahBarangMentahs = $request->input('jumlah_barang_mentah.*');
+        dump($jumlahBarangMentahs);
 
-        $namaBarangJadi = $request->input('id_bahan_mentah');
-
-        dump($namaBarangJadi[1]);
-
-        return redirect()->route('bahan-mentah.index')->with('tambah success', 'Pembuatan barang jadi');
+        // return redirect()->route('bahan-mentah.index')->with('tambah success', 'Pembuatan barang jadi');
     }
 
     /**
