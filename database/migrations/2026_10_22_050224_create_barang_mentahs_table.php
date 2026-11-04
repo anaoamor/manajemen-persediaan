@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nama');
             $table->foreignId('id_kategori')->constrained('kategoris');
             $table->string('satuan_hitung');
-            $table->integer('stok');
+            $table->decimal('stok');
             $table->string('ukuran');
             $table->foreignId('id_pemasoks')->constrained('pemasoks');
             $table->timestamp('waktu');

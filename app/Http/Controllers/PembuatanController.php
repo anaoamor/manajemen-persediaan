@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BarangJadi;
 use App\Models\BarangMentah;
+use App\Models\BarangMentahDipakai;
 use App\Models\KategoriPerabot;
 use App\Models\Pembuatan;
 use DB;
@@ -53,8 +54,32 @@ class PembuatanController extends Controller
     {
         $idBarangMentahs = $request->input('id_barang_mentah.*');
         $jumlahBarangMentahs = $request->input('jumlah_barang_mentah.*');
-        dump($jumlahBarangMentahs);
+       
+        // DB::transaction(function() use ($idBarangMentahs, $jumlahBarangMentahs, $request){
+        //   $pembuatan = Pembuatan::create([
+        //     'waktu' => now(),
+        //     'status' => 'Proses',
+        //   ]);
 
+        //   $pembuatan->barangJadi()->create([
+        //     'id_kategori_perabot' => $request->input('id_kategori'),
+        //     'nama' => $request->input('nama_barang_jadi'),
+        //     'jumlah' => $request->input('jumlah'),
+        //   ]);
+
+        //   foreach($idBarangMentahs as $key => $value){
+        //     $pembuatan->barangMentahDipakai()->create([
+        //       'id_barang_mentah' => $value,
+        //       'jumlah' => $jumlahBarangMentahs[$key],
+        //     ]);
+        //   }
+        // });
+        $pembuatan = Pembuatan::with('barangMentahDipakai')->get();
+        foreach($pembuatan as $item){
+          echo($item->barangMentahDipakai);
+          echo('<br>');
+        }
+        // dump($pembuatan);
         // return redirect()->route('bahan-mentah.index')->with('tambah success', 'Pembuatan barang jadi');
     }
 

@@ -35,25 +35,29 @@
 
               <fieldset class="mb-3 border rounded-3 p-3">
                 <legend class="float-none w-auto px-3">Barang Mentah</legend>
-                <div>
-                  <small class="text-danger pesan-error" id="id-barang-mentah-error"></small>
-                  <br>
-                  <small class="text-danger pesan-error" id="jumlah-barang-mentah-error"></small>
+                <div class="row mb-3 align-items-center">
+                  <div class="col">
+                    <small class="text-danger pesan-error" id="id-barang-mentah-error"></small>
+                  </div>
+                  <div class="col">
+                    <small class="text-danger pesan-error" id="jumlah-barang-mentah-error"></small>
+                  </div>
+                  <div class="col"></div>
                 </div>
                 <div id="barang-mentah-container" class="container">
                   <div class="row barang-mentah-row mb-3 align-items-center">
                     <div class="col">
-                      <select class="form-select" name="id_barang_mentah[]" aria-label="Barang Mentah">
+                      <select class="form-select" name="id_barang_mentah[]" id="id_barang_mentah_0" aria-label="Barang Mentah">
                         <option value="">Pilih Barang Mentah</option>
                         @foreach ($barangMentahs as $barangMentah)
-                          <option value="{{ $barangMentah->id }}">
+                          <option value="{{ $barangMentah->id }}" data-stok="{{ $barangMentah->stok }}">
                             {{ $barangMentah->nama }}
                           </option>
                         @endforeach
                       </select>
                     </div>
                     <div class="col">
-                      <input type="number" class="form-control" name="jumlah_barang_mentah[]" placeholder="Jumlah">
+                      <input type="number" class="form-control" name="jumlah_barang_mentah[]" id="jumlah_barang_mentah_0" placeholder="Jumlah">
                     </div>
                     <div class="col">
                       <button class="btn btn-info text-white tambah-btn"  style="width: 95px">Tambah</button>
@@ -80,16 +84,14 @@
                   <select class="form-select" name="id_barang_mentah[]" aria-label="Barang Mentah">
                     <option value="">Pilih Barang Mentah</option>
                     @foreach ($barangMentahs as $barangMentah)
-                      <option value="{{ $barangMentah->id }}">
+                      <option value="{{ $barangMentah->id }}" data-stok="{{ $barangMentah->stok }}">
                         {{ $barangMentah->nama }}
                       </option>
                     @endforeach
                   </select>
-                  <small class="text-danger pesan-error"></small>
                 </div>
                 <div class="col">
                   <input type="number" class="form-control" name="jumlah_barang_mentah[]" placeholder="Jumlah">
-                  <small class="text-danger pesan-error"></small>
                 </div>
                 <div class="col">
                   <button class="btn btn-danger hapus-btn" style="width: 95px">Hapus</button>
@@ -107,13 +109,47 @@
   const barangMentahContainer = document.getElementById('barang-mentah-container');
   const barangMentahTemplate = document.getElementById('barang-mentah-template');
   const tambahBtn = document.querySelectorAll('.tambah-btn');
+
   const pembuatanForm = document.querySelector('form');
+
+  const idBarangMentahError = document.getElementById('id-barang-mentah-error');
+  const jumlahBarangMentahError = document.getElementById('jumlah-barang-mentah-error');  
+  const barangMentahSelect0 = document.getElementById('id_barang_mentah_0');
+  const jumlahBarangMentahInput0 = document.getElementById('jumlah_barang_mentah_0');
+
+  var index = 1;
+
+  jumlahBarangMentahInput0.addEventListener('change', function(){
+    jumlahBarangMentahError.textContent = '';
+    const selectedBarangMentahStok = barangMentahSelect0.selectedOptions[0].dataset.stok;
+    if(this.value > selectedBarangMentahStok){
+      jumlahBarangMentahError.textContent = "Jumlah tidak boleh melebihi stok";
+    }
+  });
   
+
   tambahBtn.forEach(btn => {
     btn.addEventListener('click', function(e){
       e.preventDefault();
       const clone = barangMentahTemplate.content.cloneNode(true);
+      const newBarangMentahSelect = clone.querySelector('select');
+      const newJumlahBarangMentahInput = clone.querySelector('input');
+      
+      clone.querySelector('select').id = 'id_barang_mentah_'+index;
+      clone.querySelector('input').id = 'jumlah_barang_mentah_'+index;
       barangMentahContainer.appendChild(clone);
+
+      newJumlahBarangMentahInput.addEventListener('change', function(){
+        jumlahBarangMentahError.textContent = '';
+        const selectedBarangMentahStok = newBarangMentahSelect.selectedOptions[0];
+        if(this.value > selectedBarangMentahStok.dataset.stok){
+          jumlahBarangMentahError.textContent = "Jumlah tidak boleh melebih stok";
+        }
+      });
+      
+      
+      index++;
+
     });
   }); 
 
@@ -128,22 +164,17 @@
     var isValid = true;
     const namaBarangJadiInput = document.getElementById('nama_barang_jadi');
     const idKategoriInput = document.getElementById('id_kategori');
-    const barangMentahSelects = document.querySelectorAll('select[name="id_barang_mentah[]"]');
-    const jumlahBarangMentahInputs = document.querySelectorAll('input[name="jumlah_barang_mentah[]"]');
     const jumlahInput = document.getElementById('jumlah');
-
+  
     const namaBarangJadiError = document.getElementById('nama_barang_jadi_error');
     const idKategoriError = document.getElementById('id_kategori_error');
-    const idBarangMentahError = document.getElementById('id-barang-mentah-error');
-    const jumlahBarangMentahError = document.getElementById('jumlah-barang-mentah-error');
     const jumlahError = document.getElementById('jumlah-error');
 
     // Reset error messages
     namaBarangJadiError.textContent = '';
     idKategoriError.textContent = '';
-    jumlahError.textContent = '';
     idBarangMentahError.textContent = '';
-    jumlahBarangMentahError.textContent = '';
+    jumlahError.textContent = '';
 
     const namaBarangJadi = namaBarangJadiInput.value.trim();
     const idKategori = idKategoriInput.value;
@@ -166,14 +197,14 @@
       jumlahError.textContent = 'Jumlah harus lebih besar dari 0';
       isValid = false;
     }
-    if(barangMentahSelects[0].value === ""){
+    if(barangMentahSelect0.value === ""){
       idBarangMentahError.textContent = "Minimal 1 barang mentah";
       isValid = false;
     }
-    if(!pattern.test(jumlahBarangMentahInputs[0].value)){
+    if(!pattern.test(jumlahBarangMentahInput0.value)){
       jumlahBarangMentahError.textContent = "Jumlah harus angka";
       isValid = false;
-    }else if(jumlahBarangMentahInputs[0].value <= 0){
+    }else if(jumlahBarangMentahInput0.value <= 0){
       jumlahBarangMentahError.textContent = 'Jumlah harus lebih dari 0';
       isValid = false;
     }

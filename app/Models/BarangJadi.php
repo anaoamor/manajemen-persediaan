@@ -25,7 +25,7 @@ class BarangJadi extends Model
 
     public function pembuatan(): BelongsTo
     {
-        return $this->belongsTo(Pembuatan::class);
+        return $this->belongsTo(Pembuatan::class, 'id_pembuatan');
     }
 
     public function kategoriPerabot(): BelongsTo
