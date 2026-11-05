@@ -119,15 +119,19 @@
 
   var index = 1;
 
+  //validate barang mentah chosen and stok available
   jumlahBarangMentahInput0.addEventListener('change', function(){
+    idBarangMentahError.textContent = '';
     jumlahBarangMentahError.textContent = '';
-    const selectedBarangMentahStok = barangMentahSelect0.selectedOptions[0].dataset.stok;
-    if(this.value > selectedBarangMentahStok){
+    const selectedBarangMentah = barangMentahSelect0.selectedOptions[0];
+    if(selectedBarangMentah.value === ""){
+      idBarangMentahError.textContent ="Pilih barang mentah terlebih dahulu";
+    }
+    if(this.value > selectedBarangMentah.dataset.stok){
       jumlahBarangMentahError.textContent = "Jumlah tidak boleh melebihi stok";
     }
   });
   
-
   tambahBtn.forEach(btn => {
     btn.addEventListener('click', function(e){
       e.preventDefault();
@@ -135,18 +139,19 @@
       const newBarangMentahSelect = clone.querySelector('select');
       const newJumlahBarangMentahInput = clone.querySelector('input');
       
-      clone.querySelector('select').id = 'id_barang_mentah_'+index;
-      clone.querySelector('input').id = 'jumlah_barang_mentah_'+index;
       barangMentahContainer.appendChild(clone);
 
       newJumlahBarangMentahInput.addEventListener('change', function(){
+        idBarangMentahError.textContent = '';
         jumlahBarangMentahError.textContent = '';
-        const selectedBarangMentahStok = newBarangMentahSelect.selectedOptions[0];
-        if(this.value > selectedBarangMentahStok.dataset.stok){
+        const selectedBarangMentah = newBarangMentahSelect.selectedOptions[0];
+        if(selectedBarangMentah.value === ""){
+          idBarangMentahError.textContent = "Pilih barang mentah terlebih dahulu";
+        }
+        if(this.value > selectedBarangMentah.dataset.stok){
           jumlahBarangMentahError.textContent = "Jumlah tidak boleh melebih stok";
         }
       });
-      
       
       index++;
 

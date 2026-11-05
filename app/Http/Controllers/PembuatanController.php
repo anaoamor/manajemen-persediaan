@@ -17,23 +17,8 @@ class PembuatanController extends Controller
      */
     public function index()
     {
-
-      // DB::transaction(function(){
-      //   $pembuatan = Pembuatan::create([
-      //     'waktu' => now(),
-      //     'jumlah' => 10,
-      //     'status' => 'Proses',
-      //   ]);
-
-      //   $pembuatan->barangJadi()->create([
-      //     'id_kategori_perabot' => 1,
-      //     'nama' => 'Lemari',
-      //     'jumlah' => 10,
-      //   ]);
-        
-      // });
-        
-      return view('buat.index');
+      $pembuatans = Pembuatan::with('barangJadi')->orderByDesc('id')->paginate(15);        
+      return view('buat.index', compact('pembuatans'));
     }
 
     /**
@@ -55,32 +40,41 @@ class PembuatanController extends Controller
         $idBarangMentahs = $request->input('id_barang_mentah.*');
         $jumlahBarangMentahs = $request->input('jumlah_barang_mentah.*');
        
-        // DB::transaction(function() use ($idBarangMentahs, $jumlahBarangMentahs, $request){
-        //   $pembuatan = Pembuatan::create([
-        //     'waktu' => now(),
-        //     'status' => 'Proses',
-        //   ]);
+        DB::transaction(function() use ($idBarangMentahs, $jumlahBarangMentahs, $request){
+          $pembuatan = Pembuatan::create([
+            'waktu' => now(),
+            'status' => 'Proses',
+          ]);
+          
+          //Calculate minimal price to sell the final product
+          $totalHargaBahanMentah = 0;
+          foreach($idBarangMentahs as $key => $value){
+            $bahanMentah = BarangMentah::findOrFail($value);
+            $totalHargaBahanMentah += ($bahanMentah->harga_satuan * $jumlahBarangMentahs[$key]);
+            
+            //Update stok barang mentah
+            $bahanMentah->stok -= $jumlahBarangMentahs[$key];
+            $bahanMentah->save();
 
-        //   $pembuatan->barangJadi()->create([
-        //     'id_kategori_perabot' => $request->input('id_kategori'),
-        //     'nama' => $request->input('nama_barang_jadi'),
-        //     'jumlah' => $request->input('jumlah'),
-        //   ]);
+            //Create record for barang mentah dipakai
+            $pembuatan->barangMentahDipakai()->create([
+              'id_barang_mentah' => $value,
+              'jumlah' => $jumlahBarangMentahs[$key],
+            ]);
+          }
+          $hargaBarangJadiMinimal = ($totalHargaBahanMentah/$request->input('jumlah'));
 
-        //   foreach($idBarangMentahs as $key => $value){
-        //     $pembuatan->barangMentahDipakai()->create([
-        //       'id_barang_mentah' => $value,
-        //       'jumlah' => $jumlahBarangMentahs[$key],
-        //     ]);
-        //   }
-        // });
-        $pembuatan = Pembuatan::with('barangMentahDipakai')->get();
-        foreach($pembuatan as $item){
-          echo($item->barangMentahDipakai);
-          echo('<br>');
-        }
-        // dump($pembuatan);
-        // return redirect()->route('bahan-mentah.index')->with('tambah success', 'Pembuatan barang jadi');
+          $pembuatan->barangJadi()->create([
+            'id_kategori_perabot' => $request->input('id_kategori'),
+            'nama' => $request->input('nama_barang_jadi'),
+            'harga_minimal' => $hargaBarangJadiMinimal,
+            'jumlah' => $request->input('jumlah'),
+          ]);
+
+          
+        });
+
+        return redirect()->route('pembuatan.index')->with('tambah success', 'Pembuatan barang jadi');
     }
 
     /**
@@ -88,7 +82,16 @@ class PembuatanController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $pembuatan = Pembuatan::findOrFail($id);
+        $barangJadi = $pembuatan->barangJadi;
+        $kategori = $barangJadi->kategoriPerabot;
+        $barangMentahDipakais = $pembuatan->barangMentahDipakai;
+        $namaBarangMentahs = [];
+        foreach($barangMentahDipakais as $barangMentahDipakai){
+          $namaBarangMentahs[] = $barangMentahDipakai->barangMentah->nama;
+        }
+        
+        return view('buat.show', compact('pembuatan', 'barangJadi', 'kategori', 'barangMentahDipakais', 'namaBarangMentahs'));
     }
 
     /**
@@ -96,7 +99,15 @@ class PembuatanController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $kategoris = KategoriPerabot::orderByDesc('id')->get();
+        $barangMentahs = BarangMentah::orderByDesc('id')->get();
+
+        $pembuatan = Pembuatan::findOrFail($id);
+        $barangJadi = $pembuatan->barangJadi;
+        $kategoriTerpilih = $barangJadi->kategoriPerabot;
+        $barangMentahDipakais = $pembuatan->barangMentahDipakai;
+
+        return view('buat.edit', compact('kategoris', 'barangMentahs', 'pembuatan', 'barangJadi', 'kategoriTerpilih', 'barangMentahDipakais'));
     }
 
     /**
