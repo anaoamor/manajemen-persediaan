@@ -35,17 +35,17 @@ class BarangMentahController extends Controller
      */
     public function store(Request $request)
     {      
-       $validatedData = $request->validate([ 
-            'kode_item' => 'required|string',  
-            'nama_barang' => 'required|string',
-            'id_kategori' => 'required|exists:kategoris,id',
-            'satuan_hitung' => 'required|in:Batang,Lembar,Kaleng,Buah,Kg',
-            'stok' => 'required|integer',
-            'ukuran' => 'required|string',
-            'harga_per_satuan' => 'required|numeric|min:0',
-            'id_supplier' => 'exists:pemasoks,id',
-        ]);
-
+      $validatedData = $request->validate([
+        'kode_item' => ['required', 'string'],  
+        'nama_barang' => ['required', 'string'],
+        'id_kategori' => ['required', 'exists:kategoris,id'],
+        'satuan_hitung' => ['required', 'in:Batang,Lembar,Kaleng,Buah,Kg'],
+        'stok' => ['required', 'regex:/^([1-9]+[0-9]*)|(0\.[0-9]*[1-9])$/'],
+        'ukuran' => ['required','string'],
+        'harga_per_satuan' => ['required','numeric','min:0'],
+        'id_supplier' => ['exists:pemasoks,id'],
+      ]);
+      
         $barangMentah = BarangMentah::create([
           'kode_item' => $validatedData['kode_item'],
           'nama' => $validatedData['nama_barang'],
@@ -94,14 +94,14 @@ class BarangMentahController extends Controller
     public function update(Request $request, string $id)
     {
       $validatedData = $request->validate([
-        'kode_item' => 'required|string',  
-        'nama_barang' => 'required|string',
-        'id_kategori' => 'required|exists:kategoris,id',
-        'satuan_hitung' => 'required|in:Batang,Lembar,Kaleng,Buah,Kg',
-        'stok' => 'required|integer',
-        'ukuran' => 'required|string',
-        'harga_per_satuan' => 'required|numeric|min:0',
-        'id_supplier' => 'exists:pemasoks,id',
+        'kode_item' => ['required', 'string'],  
+        'nama_barang' => ['required', 'string'],
+        'id_kategori' => ['required', 'exists:kategoris,id'],
+        'satuan_hitung' => ['required', 'in:Batang,Lembar,Kaleng,Buah,Kg'],
+        'stok' => ['required', 'regex:/^([1-9]+[0-9]*)|(0\.[0-9]*[1-9])$/'],
+        'ukuran' => ['required','string'],
+        'harga_per_satuan' => ['required','numeric','min:0'],
+        'id_supplier' => ['exists:pemasoks,id'],
       ]);
 
       $barangMentah = BarangMentah::findOrFail($id);

@@ -58,7 +58,7 @@
               </div>
               <div class="mb-3">
                 <label for="stok" class="form-label">Stok</label>
-                <input type="text" class="form-control" name="stok" id="stok" value="{{ old('stok') }}">
+                <input type="text" class="form-control" step="0.01" name="stok" id="stok" value="{{ old('stok') }}">
                 @error('stok')
                   <small class="text-danger pesan-error">{{ $message }}</small>
                 @enderror

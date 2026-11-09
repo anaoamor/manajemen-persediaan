@@ -46,24 +46,31 @@
                   <div class="col"></div>
                 </div>
                 <div id="barang-mentah-container" class="container">
-                  <div class="row barang-mentah-row mb-3 align-items-center">
-                    <div class="col">
-                      <select class="form-select" name="id_barang_mentah[]" id="id_barang_mentah_0" aria-label="Barang Mentah">
-                        <option value="">Pilih Barang Mentah</option>
-                        @foreach ($barangMentahs as $barangMentah)
-                          <option value="{{ $barangMentah->id }}" data-stok="{{ $barangMentah->stok }}">
-                            {{ $barangMentah->nama }}
-                          </option>
-                        @endforeach
-                      </select>
+                  @foreach ($barangMentahDipakais as $key => $barangMentahDipakai)
+                    <div class="row barang-mentah-row mb-3 align-items-center">
+                      <div class="col">
+                        <select class="form-select" name="id_barang_mentah[]" aria-label="Barang Mentah">
+                          <option value="">Pilih Barang Mentah</option>
+                          @foreach ($barangMentahs as $barangMentah)
+                            <option value="{{ $barangMentah->id }}" @selected($barangMentahDipakai->id_barang_mentah === $barangMentah->id) data-stok="{{ $barangMentah->stok }}">
+                              {{ $barangMentah->nama }}
+                            </option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="col">
+                        <input type="number" class="form-control" step="0.01" name="jumlah_barang_mentah[]" data-id-barang-mentah-dipakai="{{ $barangMentahDipakai->id_barang_mentah }}" data-jumlah-barang-mentah-dipakai="{{ $barangMentahDipakai->jumlah }}" value="{{ $barangMentahDipakai->jumlah }}" placeholder="Jumlah">
+                      </div>
+                      <div class="col">
+                        @if ($key === 0)
+                          <button class="btn btn-info text-white tambah-btn"  style="width: 95px">Tambah</button>
+                        @else
+                          <button class="btn btn-danger hapus-btn" style="width: 95px">Hapus</button>  
+                        @endif
+                        
+                      </div>
                     </div>
-                    <div class="col">
-                      <input type="number" class="form-control" name="jumlah_barang_mentah[]" id="jumlah_barang_mentah_0" placeholder="Jumlah">
-                    </div>
-                    <div class="col">
-                      <button class="btn btn-info text-white tambah-btn"  style="width: 95px">Tambah</button>
-                    </div>
-                  </div>
+                  @endforeach
               </div>
               </fieldset>
               <div class="mb-3">
@@ -92,7 +99,7 @@
                   </select>
                 </div>
                 <div class="col">
-                  <input type="number" class="form-control" name="jumlah_barang_mentah[]" placeholder="Jumlah">
+                  <input type="number" class="form-control" step="0.01" name="jumlah_barang_mentah[]" placeholder="Jumlah">
                 </div>
                 <div class="col">
                   <button class="btn btn-danger hapus-btn" style="width: 95px">Hapus</button>
@@ -118,22 +125,27 @@
   const barangMentahSelects = document.querySelectorAll('select[name="id_barang_mentah[]"]');
   const jumlahBarangMentahInputs = document.querySelectorAll('input[name="jumlah_barang_mentah[]"]');
 
-  var index = 1;
-
   //validate barang mentah chosen and stok available
-  jumlahBarangMentahInputs.forEach((input, i){
+  jumlahBarangMentahInputs.forEach((input, i) => {
 
-  });
-  jumlahBarangMentahInputs.addEventListener('change', function(){
-    idBarangMentahError.textContent = '';
-    jumlahBarangMentahError.textContent = '';
-    const selectedBarangMentah = barangMentahSelect0.selectedOptions[0];
-    if(selectedBarangMentah.value === ""){
-      idBarangMentahError.textContent ="Pilih barang mentah terlebih dahulu";
-    }
-    if(this.value > selectedBarangMentah.dataset.stok){
-      jumlahBarangMentahError.textContent = "Jumlah tidak boleh melebihi stok";
-    }
+    input.addEventListener('input', function(e){
+      idBarangMentahError.textContent = '';
+      jumlahBarangMentahError.textContent = '';
+      const selectedBarangMentah = barangMentahSelects[i].selectedOptions[0];
+      if(selectedBarangMentah.value === ""){
+        idBarangMentahError.textContent ="Pilih barang mentah terlebih dahulu";
+      }
+      if(this.dataset.idBarangMentahDipakai === selectedBarangMentah.value){
+        if((Number(e.target.value) > Number(this.dataset.jumlahBarangMentahDipakai)) && ((Number(this.value) - Number(this.dataset.jumlahBarangMentahDipakai)) > Number(selectedBarangMentah.dataset.stok)))
+          jumlahBarangMentahError.textContent = "Jumlah tidak boleh melebihi stok";
+      }else{
+        if(Number(e.target.value) > Number(selectedBarangMentah.dataset.stok)){
+          jumlahBarangMentahError.textContent = "Jumlah tidak boleh melebihi stok";
+        }
+      }
+      
+      
+    });
   });
   
   tambahBtn.forEach(btn => {
@@ -145,6 +157,7 @@
       
       barangMentahContainer.appendChild(clone);
 
+      //validate new barang mentah chosen and stok available
       newJumlahBarangMentahInput.addEventListener('change', function(){
         idBarangMentahError.textContent = '';
         jumlahBarangMentahError.textContent = '';
@@ -152,12 +165,10 @@
         if(selectedBarangMentah.value === ""){
           idBarangMentahError.textContent = "Pilih barang mentah terlebih dahulu";
         }
-        if(this.value > selectedBarangMentah.dataset.stok){
+        if(Number(this.value) > Number(selectedBarangMentah.dataset.stok)){
           jumlahBarangMentahError.textContent = "Jumlah tidak boleh melebih stok";
         }
       });
-      
-      index++;
 
     });
   }); 
@@ -198,7 +209,7 @@
       idKategoriError.textContent = 'Kategori harus dipilih.';
       isValid = false;
     }
-    const pattern = /^[1-9]+[0-9]*$/;
+    const pattern = /^([1-9]+[0-9]*)|(0\.[0-9]*[1-9])$/;
     if(!pattern.test(jumlah)){
       jumlahError.textContent = 'Jumlah harus angka';
       isValid = false;

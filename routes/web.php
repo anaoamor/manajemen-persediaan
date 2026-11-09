@@ -8,6 +8,7 @@ use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\PembuatanController;
 use App\Http\Controllers\PenjualanController;
 use App\Models\Kategori;
+use App\Models\Pembuatan;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', [BarangMentahController::class, 'index']);
@@ -43,7 +44,9 @@ Route::post('/pembuatan/store', [PembuatanController::class, 'store'])->name('pe
 Route::get('/pembuatan/show/{id}', [PembuatanController::class, 'show'])->name('pembuatan.show');
 Route::get('/pembuatan/edit/{id}', [PembuatanController::class, 'edit'])->name('pembuatan.edit');
 Route::put('/pembuatan/update/{id}', [PembuatanController::class, 'update'])->name('pembuatan.update');
-Route::delete('/pembuatan/destroy/{id}', [PembuatanController::class, 'destroy'])->name('pembuatan.destroy');
+Route::get('/pembuatan/selesai/{id}', [PembuatanController::class, 'selesai'])->name('pembuatan.selesai');
+Route::get('/pembuatan/destroy/{id}', [PembuatanController::class, 'destroy'])->name('pembuatan.destroy');
+Route::get('/pembuatan/search', [PembuatanController::class, 'search'])->name('pembuatan.search');
 
 Route::get('/penjualan/index', [PenjualanController::class, 'index'])->name('penjualan.index');
 Route::get('/penjualan/create', [PenjualanController::class, 'create'])->name('penjualan.create');

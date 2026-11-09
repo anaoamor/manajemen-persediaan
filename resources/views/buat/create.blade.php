@@ -57,7 +57,7 @@
                       </select>
                     </div>
                     <div class="col">
-                      <input type="number" class="form-control" name="jumlah_barang_mentah[]" id="jumlah_barang_mentah_0" placeholder="Jumlah">
+                      <input type="number" class="form-control" step="0.01" name="jumlah_barang_mentah[]" id="jumlah_barang_mentah_0" placeholder="Jumlah">
                     </div>
                     <div class="col">
                       <button class="btn btn-info text-white tambah-btn"  style="width: 95px">Tambah</button>
@@ -91,7 +91,7 @@
                   </select>
                 </div>
                 <div class="col">
-                  <input type="number" class="form-control" name="jumlah_barang_mentah[]" placeholder="Jumlah">
+                  <input type="number" class="form-control" step="0.01" name="jumlah_barang_mentah[]" placeholder="Jumlah">
                 </div>
                 <div class="col">
                   <button class="btn btn-danger hapus-btn" style="width: 95px">Hapus</button>
@@ -117,18 +117,17 @@
   const barangMentahSelect0 = document.getElementById('id_barang_mentah_0');
   const jumlahBarangMentahInput0 = document.getElementById('jumlah_barang_mentah_0');
 
-  var index = 1;
-
   //validate barang mentah chosen and stok available
-  jumlahBarangMentahInput0.addEventListener('change', function(){
+  jumlahBarangMentahInput0.addEventListener('input', function(e){
     idBarangMentahError.textContent = '';
     jumlahBarangMentahError.textContent = '';
     const selectedBarangMentah = barangMentahSelect0.selectedOptions[0];
     if(selectedBarangMentah.value === ""){
       idBarangMentahError.textContent ="Pilih barang mentah terlebih dahulu";
     }
-    if(this.value > selectedBarangMentah.dataset.stok){
+    if(Number(e.target.value) > Number(selectedBarangMentah.dataset.stok)){
       jumlahBarangMentahError.textContent = "Jumlah tidak boleh melebihi stok";
+      console.log(e.target.value); 
     }
   });
   
@@ -141,20 +140,18 @@
       
       barangMentahContainer.appendChild(clone);
 
-      newJumlahBarangMentahInput.addEventListener('change', function(){
+      newJumlahBarangMentahInput.addEventListener('input', function(event){
         idBarangMentahError.textContent = '';
         jumlahBarangMentahError.textContent = '';
         const selectedBarangMentah = newBarangMentahSelect.selectedOptions[0];
         if(selectedBarangMentah.value === ""){
           idBarangMentahError.textContent = "Pilih barang mentah terlebih dahulu";
         }
-        if(this.value > selectedBarangMentah.dataset.stok){
+        if(Number(event.target.value) > Number(selectedBarangMentah.dataset.stok)){
           jumlahBarangMentahError.textContent = "Jumlah tidak boleh melebih stok";
         }
       });
       
-      index++;
-
     });
   }); 
 
@@ -194,7 +191,7 @@
       idKategoriError.textContent = 'Kategori harus dipilih.';
       isValid = false;
     }
-    const pattern = /^[1-9]+[0-9]*$/;
+    const pattern = /^([1-9]+[0-9]*)|(0\.[0-9]*[1-9])$/;
     if(!pattern.test(jumlah)){
       jumlahError.textContent = 'Jumlah harus angka';
       isValid = false;

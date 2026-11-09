@@ -15,6 +15,13 @@ class BarangMentahDipakai extends Model
         'jumlah',
     ];
 
+    protected function setKeysForSaveQuery($query){
+      $query->where('id_pembuatan', '=', $this->getAttribute('id_pembuata'))
+      ->where('id_barang_mentah', '=', $this->get('id_barang_mentah'));
+
+      return $query;
+    }
+
     public function barangMentah(): BelongsTo
     {
         return $this->belongsTo(BarangMentah::class, 'id_barang_mentah');
