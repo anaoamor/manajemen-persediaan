@@ -37,6 +37,8 @@ Route::get('/barang-mentah/search', [BarangMentahController::class, 'search'])->
 
 Route::get('/barang-jadi/index', [BarangJadiController::class, 'index'])->name('barang-jadi.index');
 Route::get('/barang-jadi/show/{id}', [BarangJadiController::class, 'show'])->name('barang-jadi.show');
+Route::get('/barang-jadi/edit/{id}', [BarangJadiController::class, 'edit'])->name('barang-jadi.edit');
+Route::put('barang-jadi/update/{id}', [BarangJadiController::class, 'update'])->name('barang-jadi.update');
 
 Route::get('/pembuatan/index', [PembuatanController::class, 'index'])->name('pembuatan.index');
 Route::get('/pembuatan/create', [PembuatanController::class, 'create'])->name('pembuatan.create');

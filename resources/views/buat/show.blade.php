@@ -29,7 +29,7 @@
             </div>
             <div class="mb-3">
               <label for="waktu" class="form-label">Waktu</label>
-              <input type="text" class="form-control bg-white" name="waktu" id="waktu" readonly value="{{ \Carbon\Carbon::parse($pembuatan->waktu)->isoFormat('dddd, DD MMMM Y hh:mm') }}">
+              <input type="text" class="form-control bg-white" name="waktu" id="waktu" readonly value="{{ \Carbon\Carbon::parse($pembuatan->waktu)->isoFormat('dddd, DD MMMM Y HH:mm') }}">
             </div>
             <div class="mb-3">
               <label for="status" class="form-label">Status</label>
