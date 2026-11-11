@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->decimal('total_pembayaran', 10, 2);
             $table->timestamp('waktu');
-            $table->foreignId('id_pembeli')->constrained();
+            $table->foreignId('id_pembeli')->constrained('pembelis');
         });
     }
 

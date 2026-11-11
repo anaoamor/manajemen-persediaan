@@ -22,6 +22,6 @@ class Penjualan extends Model
 
     public function pembeli(): BelongsTo
     {
-        return $this->belongsTo(Pembeli::class);
+        return $this->belongsTo(Pembeli::class, 'id_pembeli');
     }
 }

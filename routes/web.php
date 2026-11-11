@@ -5,6 +5,7 @@ use App\Http\Controllers\BarangJadiController;
 use App\Http\Controllers\BarangMentahController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PemasokController;
+use App\Http\Controllers\PembeliController;
 use App\Http\Controllers\PembuatanController;
 use App\Http\Controllers\PenjualanController;
 use App\Models\Kategori;
@@ -39,6 +40,7 @@ Route::get('/barang-jadi/index', [BarangJadiController::class, 'index'])->name('
 Route::get('/barang-jadi/show/{id}', [BarangJadiController::class, 'show'])->name('barang-jadi.show');
 Route::get('/barang-jadi/edit/{id}', [BarangJadiController::class, 'edit'])->name('barang-jadi.edit');
 Route::put('barang-jadi/update/{id}', [BarangJadiController::class, 'update'])->name('barang-jadi.update');
+Route::get('/barang-jadi/search', [BarangJadiController::class, 'search'])->name('barang-jadi.search');
 
 Route::get('/pembuatan/index', [PembuatanController::class, 'index'])->name('pembuatan.index');
 Route::get('/pembuatan/create', [PembuatanController::class, 'create'])->name('pembuatan.create');
@@ -49,6 +51,15 @@ Route::put('/pembuatan/update/{id}', [PembuatanController::class, 'update'])->na
 Route::get('/pembuatan/selesai/{id}', [PembuatanController::class, 'selesai'])->name('pembuatan.selesai');
 Route::get('/pembuatan/destroy/{id}', [PembuatanController::class, 'destroy'])->name('pembuatan.destroy');
 Route::get('/pembuatan/search', [PembuatanController::class, 'search'])->name('pembuatan.search');
+
+Route::get('/pembeli/index', [PembeliController::class, 'index'])->name('pembeli.index');
+Route::get('/pembeli/create', [PembeliController::class, 'create'])->name('pembeli.create');
+Route::post('/pembeli/store', [PembeliController::class, 'store'])->name('pembeli.store');
+Route::get('/pembeli/show/{id}', [PembeliController::class, 'show'])->name('pembeli.show');
+Route::get('/pembeli/edit/{id}', [PembeliController::class, 'edit'])->name('pembeli.edit');
+Route::put('/pembeli/update/{id}', [PembeliController::class, 'update'])->name('pembeli.update');
+Route::get('/pembeli/destroy/{id}', [PembeliController::class, 'destroy'])->name('pembeli.destroy');
+Route::get('/pembeli/search', [PembeliController::class, 'search'])->name('pembeli.search');
 
 Route::get('/penjualan/index', [PenjualanController::class, 'index'])->name('penjualan.index');
 Route::get('/penjualan/create', [PenjualanController::class, 'create'])->name('penjualan.create');

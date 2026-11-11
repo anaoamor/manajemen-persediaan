@@ -21,7 +21,7 @@
             <!-- Form Pencarian -->
             <div class="py-4 d-flex justify-content-end align-items-center">
               
-              <form class="w-50 ms-4" method="get" action="#">
+              <form class="w-50 ms-4" method="get" action="{{ route('barang-jadi.search') }}">
                 <div class="input-group">
                   <input type="text" name="search" class="form-control" placeholder="Barang Jadi">
                   <input type="submit" name="search-submit" class="btn btn-outline-secondary" value="Cari">

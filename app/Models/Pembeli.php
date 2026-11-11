@@ -16,6 +16,6 @@ class Pembeli extends Model
 
     public function penjualan(): HasMany
     {
-        return $this->hasMany(Penjualan::class);
+        return $this->hasMany(Penjualan::class, 'id_pembeli');
     }
 }

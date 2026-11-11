@@ -17,6 +17,9 @@
         <li class="{{ request()->routeIs('barang-jadi.*') ? 'active' : ''}}">
             <a href="{{ route('barang-jadi.index') }}">Barang Jadi</a>
         </li>
+        <li class="{{ request()->routeIs('pembeli.*') ? 'active' : '' }}">
+          <a href="{{ route('pembeli.index') }}">Pembeli</a>
+        </li>
         <li class="{{ request()->routeIs('penjualan.*') ? 'active' : '' }}">
             <a href="{{ route('penjualan.index') }}">Penjualan</a>
         </li>

@@ -1,6 +1,3 @@
-<div>
-    <!-- The biggest battle is the war against ignorance. - Mustafa Kemal Atatürk -->
-</div>
 <x-app-layout>
   <x-nav-bar/>
   <x-side-bar/>
