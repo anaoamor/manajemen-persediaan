@@ -68,5 +68,6 @@ Route::get('/penjualan/show/{id}', [PenjualanController::class, 'show'])->name('
 Route::get('/penjualan/edit/{id}', [PenjualanController::class, 'edit'])->name('penjualan.edit');
 Route::put('/penjualan/update/{id}', [PenjualanController::class, 'update'])->name('penjualan.update');
 Route::delete('/penjualan/destroy/{id}', [PenjualanController::class, 'destroy'])->name('penjualan.destroy');
+Route::get('/penjualan/search', [PenjualanController::class, 'search'])->name('penjualan.search');
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

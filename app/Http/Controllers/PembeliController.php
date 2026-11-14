@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BarangJadi;
+use App\Models\Pembeli;
 use Illuminate\Http\Request;
 
 class PembeliController extends Controller
@@ -11,7 +13,9 @@ class PembeliController extends Controller
      */
     public function index()
     {
-        //
+      $pembelis = Pembeli::orderByDesc('id')
+      ->paginate(15);
+        return view('pembeli.index', compact('pembelis'));
     }
 
     /**
@@ -19,7 +23,7 @@ class PembeliController extends Controller
      */
     public function create()
     {
-        //
+        return view('pembeli.create');
     }
 
     /**
@@ -27,7 +31,19 @@ class PembeliController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+          'nama' => 'required|string',
+          'no_telepon' => 'required|numeric',
+          'alamat' => 'required|string',
+        ]);
+
+        $pembeli = Pembeli::create([
+          'nama' => $request->input('nama'),
+          'no_telepon' => $request->input('no_telepon'),
+          'alamat' => $request->input('alamat')
+        ]);
+
+        return redirect()->route('pembeli.index')->with('tambah success', 'Pembeli berhasil ditambah');
     }
 
     /**
@@ -35,7 +51,8 @@ class PembeliController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $pembeli = Pembeli::findOrFail($id);
+        return view('pembeli.show', compact('pembeli'));
     }
 
     /**
@@ -43,7 +60,8 @@ class PembeliController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $pembeli = Pembeli::findOrFail($id);
+        return view('pembeli.edit', compact('pembeli'));
     }
 
     /**
@@ -51,7 +69,20 @@ class PembeliController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+          'nama' => 'required|string',
+          'no_telepon' => 'required|numeric',
+          'alamat' => 'required|string',
+        ]);
+
+        $pembeli = Pembeli::findOrFail($id)
+        ->update([
+          'nama' => $request->input('nama'),
+          'no_telepon' => $request->input('no_telepon'),
+          'alamat' => $request->input('alamat'),
+        ]);
+
+        return redirect()->route('pembeli.index')->with('edit success', 'Identitas pembeli berhasil diubah');
     }
 
     /**
@@ -59,6 +90,18 @@ class PembeliController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $pembeli = Pembeli::findOrFail($id)->delete();
+        return redirect()->route('pembeli.index')->with('success', 'Pembeli berhasil dihapus');
+    }
+
+    public function search(Request $request){
+      $searchTerm = $request->input('search');
+      $pembelis = Pembeli::when($searchTerm, function($query, $searchTerm){
+        $query->where('nama', 'LIKE', "%{$searchTerm}%");
+      })->orderByDesc('id')
+      ->paginate(15)
+      ->withQueryString();
+      
+      return view('pembeli.search', compact('pembelis', 'searchTerm'));
     }
 }
