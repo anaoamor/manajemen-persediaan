@@ -16,8 +16,8 @@
           <div class="col-8">
 
             <div class="mb-3">
-              <label for="id_barang_jadi" class="form-label">ID</label>
-              <input type="text" class="form-control bg-white" name="id_barang_jadi" id="id_barang_jadi" readonly value="{{ $pembuatan->id }}">
+              <label for="id_pembuatan" class="form-label">ID</label>
+              <input type="text" class="form-control bg-white" name="id_pembuatan" id="id_pembuatan" readonly value="{{ $pembuatan->id }}">
             </div>
             <div class="mb-3">
               <label for="nama_barang_jadi" class="form-label">Nama</label>

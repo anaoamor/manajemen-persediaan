@@ -58,7 +58,7 @@
                 <td>{{ $penjualan->pembeli->alamat }}</td>
                 <td>{{ Number::currency($penjualan->total_pembayaran, 'IDR', 'id') }}</td>
                 <td>
-                  <form method="GET" class="delete-form" action="{{ route('penjualan.destroy', $penjualan->id) }}">
+                  <form method="GET" action="{{ route('penjualan.destroy', $penjualan->id) }}" class="delete-form">
                     @csrf
                     <a href="{{ route('penjualan.show', ['id' => $penjualan->id]) }}" class="btn btn-info btn-sm text-white">Lihat</a>
                     <a href="{{ route('penjualan.edit', ['id' => $penjualan->id ]) }}" class="btn btn-secondary btn-sm text-white">Edit</a>
@@ -80,3 +80,34 @@
   </div>
 
 </x-app-layout>
+@session('success')
+  <script>
+    Swal.fire({
+      title: "Sukses",
+      icon: 'success',
+      showConfirmButton: false,
+      text: 'Penjualan berhasil dihapus',
+      timer: 3000
+    });
+  </script>
+@endsession
+<script>
+  $('.delete-form').on('submit', function(event){
+    event.preventDefault();
+
+    const link = $(this).attr('action');
+    Swal.fire({
+      title: 'Yakin menghapus penjualan?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      confirmButtonText: 'Ya',
+      cancelButtonColor: '#3085d6',
+      cancelButtonText: 'Tidak',
+    }).then(result => {
+      if(result.isConfirmed){
+        window.location.href = link;
+      }
+    });
+  });
+</script>
