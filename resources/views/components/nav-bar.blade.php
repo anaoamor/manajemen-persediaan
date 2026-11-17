@@ -9,7 +9,7 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav ms-auto">
 						<li class="nav-item">
-								<a class="nav-link p-3 text-black submenu {{ request()->routeIs('login') ? 'active' : '' }}" href="{{ route('login') }}" id="navbarScrollingDropdown" role="button">
+								<a class="nav-link p-3 text-black submenu {{ request()->routeIs('login') ? 'active' : '' }}" href="{{ route('logout') }}" id="navbarScrollingDropdown" role="button">
 								Logout</a>
 						</li>
 				</ul>

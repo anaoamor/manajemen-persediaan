@@ -142,14 +142,15 @@ class PenjualanController extends Controller
     public function search(Request $request){
       $searchTerm = $request->input('search');
       $penjualans = Penjualan::with(['pembeli', 'barangDijual.barangJadi'])
-      ->when($searchTerm, function($query, $searchTerm){
+      ->when($searchTerm, function($query) use ($searchTerm){
           $query->whereHas('barangDijual.barangJadi', function($q) use ($searchTerm){
-            $q->where('nama', 'LIKE', "%{$searchTerm}");
+            $q->where('nama', 'LIKE', "%{$searchTerm}%");
           });
-      })->orderByDesc('id')
+      })
+      ->orderByDesc('id')
       ->paginate(15)
       ->withQueryString();
-
+      
       return view('penjualan.search', compact('penjualans', 'searchTerm'));
     }
 }

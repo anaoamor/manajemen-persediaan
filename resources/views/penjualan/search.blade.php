@@ -22,7 +22,7 @@
 
             <form class="w-50 ms-4" method="get" action="{{ route('penjualan.search') }}">
               <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Barang Jadi">
+                <input type="text" name="search" class="form-control" placeholder="Barang Jadi" value="{{ $searchTerm }}">
                 <input type="submit" name="search-submit" class="btn btn-outline-secondary" value="Cari">
               </div>
             </form>
@@ -43,7 +43,7 @@
             </tr>
           </thead>
           <tbody>
-              @foreach($penjualans as $penjualan)
+              @forelse($penjualans as $penjualan)
                 <tr>
                 <td>{{ $penjualan->id }}</td>
                 <td>{{ \Carbon\Carbon::parse($penjualan->waktu)->isoFormat('dddd, DD MMMM YYYY HH:mm') }}</td>
@@ -67,8 +67,9 @@
                   
                 </td>
                 </tr>
-              
-              @endforeach
+              @empty
+              <p>Tidak ditemukan hasil</p>
+              @endforelse
           </tbody>
           </table>
 
