@@ -24,13 +24,23 @@ class LoginController extends Controller
 
       if(Auth::attempt($credentials)){
         
-      dump($request->password);
+      // dump($request->password);
         $request->session()->regenerate();
-        return redirect()->route('pemasok.index');
+        return redirect()->intended('/pemasok/index');
       }
 
-      // return back()->withErrors([
-      //   'email' => 'User tidak ditemukan',
-      // ]);
+      return back()->withErrors([
+        'email' => 'User tidak ditemukan',
+      ]);
+    }
+
+    public function logout(Request $request)
+    {
+      Auth::logout();
+
+      $request->session()->invalidate();
+      $request->session()->regenerateToken();
+
+      return redirect('/login');
     }
 }

@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
-
-class Admin extends Model
+use Illuminate\Foundation\Auth\User as Authenticatable;
+class Admin extends Authenticatable
 {
   public $timestamps = false;
     protected $fillable = [

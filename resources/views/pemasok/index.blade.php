@@ -5,7 +5,7 @@
     <x-side-bar />
 
     <div class="wrapper">
-
+      
         <!-- Main Content -->
         <div id="main">
           <div class="row">
